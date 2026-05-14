@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The School — Epictetus</title>
+<meta name="description" content="The free library of Stoic practice. Twenty-one exercises, fifty-eight terms, six reading paths. Everything you need to begin.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://epictetus.world/app">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%231A1710' stroke='%23C9A84C' stroke-width='4'/><circle cx='50' cy='50' r='38' fill='%23141208' stroke='%238A6A20' stroke-width='1.5'/><text x='50' y='66' text-anchor='middle' font-family='Georgia,serif' font-size='52' fill='%23C9A84C'>E</text></svg>">
+<script data-goatcounter="https://SITE_CODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cinzel:wght@400;500&family=Cinzel+Decorative:wght@400&family=DM+Mono:wght@300;400&family=Outfit:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --iv:#F8F4EE;--iv-dk:#EEE8DC;--iv-lt:#FDFAF6;
+  --ink:#1C1408;--ink-lt:#3C2C10;--ink-md:#5A4A2A;--ink-pale:#9A8A6A;
+  --bronze:#9A7020;--bronze-lt:#C9A84C;--bronze-dk:#6A4A10;
+  --bd:#D8D0BC;--bd-dk:#C0A870;--bd-lt:#E8E0CC;
+  --gold-bg:rgba(201,168,76,.06);
+  --red:#8B3A2A;--green:#2A6A3A;--blue:#2A4A8B;--purple:#5A2A8B;
+  --tile-yellow:#F5E8C0;--tile-green:#D8E8CC;--tile-blue:#CDD8EC;--tile-purple:#E0D0EC;
+  --locked-tab:#B4B2A9;
+  --feedback-red-fg:#FFFFFF;--feedback-green-fg:#FFFFFF;
+}
+[data-theme="dark"]{
+  --iv:#14110A;--iv-dk:#1A150D;--iv-lt:#1E1A12;
+  --ink:#E8DCC0;--ink-lt:#C8B898;--ink-md:#9A8A6A;--ink-pale:#7A6A4A;
+  --bronze:#C9A84C;--bronze-lt:#E0C878;--bronze-dk:#9A7020;
+  --bd:#3C3220;--bd-dk:#5A4A30;--bd-lt:#2C2418;
+  --gold-bg:rgba(201,168,76,.10);
+  --red:#B85040;--green:#5AA070;--blue:#5070B0;--purple:#8060A8;
+  --tile-yellow:#4A4020;--tile-green:#2A4030;--tile-blue:#2A3050;--tile-purple:#3A2A50;
+  --locked-tab:#5A5448;
+  --feedback-red-fg:#FFFFFF;--feedback-green-fg:#FFFFFF;
+}
+html{scroll-behavior:smooth;background:var(--iv);}
+html,body{transition:background-color .25s ease,color .25s ease;}
+body{background:var(--iv);color:var(--ink);font-family:"Outfit",sans-serif;font-weight:300;min-height:100vh;}
+
+/* HEADER / NAV */
+.hdr{position:sticky;top:0;z-index:50;background:var(--iv-lt);border-bottom:1px solid var(--bd);}
+.hdr-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.5rem;gap:1rem;}
+.brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;}
+.brand-svg{width:30px;height:30px;flex-shrink:0;}
+.brand-name{font-family:"Cinzel Decorative",serif;font-size:.95rem;color:var(--ink);letter-spacing:.22em;}
+.brand-name span{color:var(--bronze);}
+.tabs{display:flex;gap:0;}
+.tab{background:transparent;border:none;padding:.6rem 1.1rem;font-family:"DM Mono",monospace;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-pale);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;white-space:nowrap;}
+.tab:hover{color:var(--ink);}
+.tab.active{color:var(--bronze);border-bottom-color:var(--bronze);}
+.tab.locked{color:var(--locked-tab);}
+.tab.locked::before{content:"";display:inline-block;width:10px;height:10px;border:1px solid var(--ink-pale);border-bottom:none;border-radius:3px 3px 0 0;margin-right:6px;margin-bottom:-1px;vertical-align:middle;}
+.back{font-family:"DM Mono",monospace;font-size:.65rem;letter-spacing:.14em;color:var(--ink-md);text-decoration:none;white-space:nowrap;}
+.back:hover{color:var(--ink);}
+.theme-toggle{background:transparent;border:1px solid var(--bd);color:var(--ink-md);width:32px;height:32px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0;transition:border-color .2s,color .2s;flex-shrink:0;}
+.theme-toggle:hover{border-color:var(--bronze);color:var(--bronze);}
+.theme-toggle svg{width:15px;height:15px;}
+.theme-toggle .icon-sun{display:none;}
+.theme-toggle .icon-moon{display:block;}
+[data-theme="dark"] .theme-toggle .icon-sun{display:block;}
+[data-theme="dark"] .theme-toggle .icon-moon{display:none;}
+.hamburger{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:4px;padding:.3rem;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--ink);}
+
+/* MOBILE MENU */
+.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--ink);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:2rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu button,.mobile-menu a{font-family:"Cinzel",serif;font-size:1.1rem;letter-spacing:.2em;color:var(--iv);text-decoration:none;text-transform:uppercase;background:none;border:none;cursor:pointer;}
+.mobile-menu button:hover,.mobile-menu a:hover{color:var(--bronze-lt);}
+.mobile-menu-close{position:absolute!important;top:1.5rem;right:1.5rem;font-size:1.3rem!important;letter-spacing:normal!important;}
+
+/* CONTENT */
+.wrap{max-width:1100px;margin:0 auto;padding:2.5rem 1.5rem 4rem;}
+.view{display:none;}
+.view.show{display:block;}
+
+.sec-label{font-family:"DM Mono",monospace;font-size:.6rem;letter-spacing:.3em;color:var(--bronze);text-transform:uppercase;margin-bottom:.8rem;display:block;}
+.sec-title{font-family:"Cormorant Garamond",serif;font-size:clamp(2.2rem,4vw,3rem);font-weight:300;color:var(--ink);line-height:1.15;margin-bottom:1rem;}
+.sec-title em{color:var(--bronze);font-style:italic;}
+.sec-lead{font-size:1rem;color:var(--ink-md);line-height:1.8;max-width:620px;margin-bottom:2.5rem;font-weight:300;}
+.sec-lead em{color:var(--bronze);font-style:italic;}
+
+/* LIBRARY NAV */
+.lib-nav{display:flex;gap:0;margin-bottom:2rem;border-bottom:1px solid var(--bd);flex-wrap:wrap;}
+.lib-nav button{background:transparent;border:none;padding:.7rem 1rem;font-family:"DM Mono",monospace;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-pale);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s,border-color .15s;}
+.lib-nav button:hover{color:var(--ink);}
+.lib-nav button.active{color:var(--bronze);border-bottom-color:var(--bronze);}
+.lib-section{display:none;}
+.lib-section.show{display:block;}
+
+.lib-hdr{display:grid;grid-template-columns:50px 1fr;gap:1.2rem;align-items:start;margin-bottom:1.5rem;}
+.lib-hdr.emph{background:var(--gold-bg);border-left:3px solid var(--bronze);padding:1.2rem 1.4rem;}
+.lib-hdr-num{font-family:"Cinzel Decorative",serif;font-size:2.2rem;color:var(--bronze);line-height:1;padding-top:.3rem;}
+.lib-hdr h2{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;color:var(--ink);margin-bottom:.5rem;line-height:1.2;}
+.lib-hdr p{font-size:.95rem;color:var(--ink-md);line-height:1.75;font-weight:300;}
+
+/* LIBRARY ROWS (list view) */
+.lib-list{margin-top:1rem;}
+.lib-row{padding:1.1rem 0;border-bottom:1px solid var(--bd-lt);display:grid;grid-template-columns:36px 1fr auto;gap:1rem;align-items:center;cursor:pointer;transition:padding .15s,background .15s;}
+.lib-row:hover{padding-left:.3rem;}
+.lib-row:last-child{border-bottom:none;}
+.lib-row-n{font-family:"DM Mono",monospace;font-size:.66rem;color:var(--ink-pale);letter-spacing:.1em;}
+.lib-row-t{font-family:"Cormorant Garamond",serif;font-size:1.1rem;color:var(--ink);font-weight:400;line-height:1.3;}
+.lib-row-t small{display:block;font-family:"Outfit",sans-serif;font-size:.82rem;color:var(--ink-md);font-weight:300;margin-top:.2rem;line-height:1.6;}
+.lib-row-meta{font-family:"DM Mono",monospace;font-size:.58rem;color:var(--ink-pale);letter-spacing:.1em;text-transform:uppercase;text-align:right;white-space:nowrap;display:flex;flex-direction:column;align-items:flex-end;gap:.3rem;}
+.lib-row-cue{font-family:"DM Mono",monospace;font-size:.58rem;letter-spacing:.12em;color:var(--bronze);text-transform:uppercase;}
+.lib-row:hover .lib-row-cue{color:var(--bronze-lt);}
+
+/* DETAIL VIEW (when you click into a practice, path, etc.) */
+.detail{display:none;}
+.detail.show{display:block;}
+.detail-back{background:transparent;border:none;font-family:"DM Mono",monospace;font-size:.62rem;letter-spacing:.15em;color:var(--ink-md);text-transform:uppercase;cursor:pointer;padding:0;margin-bottom:1.5rem;}
+.detail-back:hover{color:var(--bronze);}
+.detail h3{font-family:"Cormorant Garamond",serif;font-size:clamp(1.8rem,3vw,2.4rem);font-weight:300;color:var(--ink);margin-bottom:.5rem;line-height:1.2;}
+.detail h3 em{color:var(--bronze);font-style:italic;}
+.detail-subs{font-family:"DM Mono",monospace;font-size:.62rem;letter-spacing:.15em;color:var(--ink-pale);text-transform:uppercase;margin-bottom:1.5rem;}
+.detail-subs span{color:var(--ink-md);}
+.detail-para{font-size:1rem;color:var(--ink-md);line-height:1.85;margin-bottom:1.3rem;font-weight:300;}
+.detail-block{background:var(--iv-lt);border:1px solid var(--bd);padding:1.3rem 1.5rem;margin:1.3rem 0;}
+.detail-block-lbl{font-family:"DM Mono",monospace;font-size:.6rem;letter-spacing:.2em;color:var(--bronze);text-transform:uppercase;margin-bottom:.6rem;}
+.detail-block p{font-size:.95rem;color:var(--ink-lt);line-height:1.8;font-weight:300;}
+.detail-steps{margin:1rem 0 .5rem;counter-reset:step;list-style:none;padding:0;}
+.detail-steps li{counter-increment:step;padding:.85rem 0 .85rem 2.5rem;position:relative;font-size:.95rem;color:var(--ink-lt);line-height:1.75;font-weight:300;border-bottom:1px solid var(--bd-lt);}
+.detail-steps li:last-child{border-bottom:none;}
+.detail-steps li::before{content:counter(step,upper-roman);position:absolute;left:0;top:.85rem;font-family:"Cinzel Decorative",serif;font-size:.9rem;color:var(--bronze);letter-spacing:.1em;width:2rem;}
+.detail-quote{background:var(--gold-bg);border-left:2px solid var(--bronze);padding:1.1rem 1.4rem;font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.08rem;color:var(--ink);line-height:1.6;margin:1.3rem 0;}
+.detail-quote cite{display:block;margin-top:.6rem;font-family:"DM Mono",monospace;font-size:.6rem;letter-spacing:.15em;color:var(--ink-pale);font-style:normal;text-transform:uppercase;}
+
+/* QUOTES list — different visual: quote-card style */
+.quote-card{padding:1.3rem 0;border-bottom:1px solid var(--bd-lt);cursor:pointer;transition:padding .15s;}
+.quote-card:hover{padding-left:.3rem;}
+.quote-card:last-child{border-bottom:none;}
+.quote-card blockquote{font-family:"Cormorant Garamond",serif;font-size:1.12rem;font-style:italic;color:var(--ink);line-height:1.55;margin-bottom:.6rem;}
+.quote-card cite{font-family:"DM Mono",monospace;font-size:.6rem;letter-spacing:.15em;color:var(--ink-pale);font-style:normal;text-transform:uppercase;}
+
+/* GLOSSARY specific */
+.gloss-search{margin:1.2rem 0 1.5rem;}
+.gloss-search input{width:100%;max-width:380px;padding:.65rem .9rem;background:var(--iv-lt);border:1px solid var(--bd);font-family:"Outfit",sans-serif;font-size:.95rem;color:var(--ink);outline:none;}
+.gloss-search input:focus{border-color:var(--bronze);}
+.gloss-cats{display:flex;gap:.4rem;margin-bottom:1rem;flex-wrap:wrap;}
+.gloss-cat{background:transparent;border:1px solid var(--bd);padding:.35rem .8rem;font-family:"DM Mono",monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-md);cursor:pointer;transition:all .15s;}
+.gloss-cat:hover{border-color:var(--bronze);color:var(--ink);}
+.gloss-cat.active{background:var(--ink);color:var(--iv);border-color:var(--ink);}
+.gloss-item{padding:1.1rem 0;border-bottom:1px solid var(--bd-lt);}
+.gloss-item:last-child{border-bottom:none;}
+.gloss-term{font-family:"Cormorant Garamond",serif;font-size:1.25rem;font-weight:400;color:var(--ink);margin-bottom:.1rem;}
+.gloss-term em{font-family:"Cormorant Garamond",serif;color:var(--bronze);font-style:italic;font-size:1rem;margin-left:.5rem;}
+.gloss-meta{font-family:"DM Mono",monospace;font-size:.58rem;letter-spacing:.12em;color:var(--ink-pale);text-transform:uppercase;margin-bottom:.5rem;}
+.gloss-def{font-size:.95rem;color:var(--ink-md);line-height:1.75;margin-bottom:.7rem;font-weight:300;}
+.gloss-quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:.92rem;color:var(--ink-lt);line-height:1.55;padding-left:.8rem;border-left:2px solid var(--bd-dk);}
+
+/* FRAMEWORK specific */
+.fwk-card{background:var(--iv-lt);border:1px solid var(--bd);padding:1.5rem 1.7rem;margin-bottom:1rem;}
+.fwk-card.emph{border-left:3px solid var(--bronze);}
+.fwk-card-head{display:flex;align-items:baseline;gap:.8rem;margin-bottom:.8rem;flex-wrap:wrap;}
+.fwk-card h3{font-family:"Cormorant Garamond",serif;font-size:1.5rem;font-weight:400;color:var(--ink);}
+.fwk-card h3 em{color:var(--bronze);font-style:italic;}
+.fwk-greek{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1rem;color:var(--bronze);}
+.fwk-card .summary{font-size:1rem;color:var(--ink-lt);margin-bottom:.9rem;line-height:1.7;font-weight:400;font-style:italic;}
+.fwk-card .detail-text{font-size:.92rem;color:var(--ink-md);line-height:1.8;margin-bottom:.9rem;font-weight:300;}
+.fwk-card .practice-text{font-size:.92rem;color:var(--ink-md);line-height:1.8;margin-bottom:.9rem;font-weight:300;padding:.9rem 1.1rem;background:var(--iv);border-left:2px solid var(--bronze-dk);}
+.fwk-card .practice-text strong{color:var(--ink);font-weight:500;}
+.fwk-quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.02rem;color:var(--ink);line-height:1.6;margin-top:.8rem;padding-top:.9rem;border-top:1px solid var(--bd-lt);}
+.fwk-quote cite{display:block;margin-top:.4rem;font-family:"DM Mono",monospace;font-size:.58rem;letter-spacing:.12em;color:var(--ink-pale);font-style:normal;text-transform:uppercase;}
+
+/* TEXTS specific */
+.texts-note{background:var(--iv-lt);border-left:2px solid var(--bronze);padding:1rem 1.3rem;margin:1rem 0;font-size:.92rem;color:var(--ink-md);line-height:1.75;font-weight:300;}
+.texts-note strong{color:var(--ink);font-weight:500;}
+.texts-coming{text-align:center;padding:3rem 1rem;color:var(--ink-pale);font-style:italic;font-size:1rem;}
+
+/* GAMES */
+.games-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem;}
+.game-card{background:var(--iv-lt);border:1px solid var(--bd);padding:1.7rem 1.8rem;}
+.game-card h3{font-family:"Cormorant Garamond",serif;font-size:1.45rem;font-weight:400;color:var(--ink);margin-bottom:.5rem;}
+.game-card p{font-size:.92rem;color:var(--ink-md);line-height:1.7;margin-bottom:1.2rem;font-weight:300;}
+.game-btn{background:var(--ink);color:var(--iv);padding:.65rem 1.4rem;font-family:"DM Mono",monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:background .2s;display:inline-block;}
+.game-btn:hover{background:var(--bronze);}
+.game-btn:disabled{background:var(--ink-pale);cursor:not-allowed;}
+.game-locked{opacity:.55;position:relative;}
+.game-locked::after{content:"Members only";position:absolute;top:1rem;right:1.3rem;font-family:"DM Mono",monospace;font-size:.55rem;letter-spacing:.14em;color:var(--ink-pale);text-transform:uppercase;background:var(--iv);border:1px solid var(--bd);padding:.25rem .55rem;}
+.game-locked .game-btn{background:var(--ink-pale);}
+.game-locked .game-btn:hover{background:var(--ink-pale);}
+.games-note{margin-top:2.5rem;padding:1rem 1.3rem;background:var(--gold-bg);border-left:2px solid var(--bronze-dk);font-size:.88rem;color:var(--ink-md);line-height:1.7;font-weight:300;}
+.games-note strong{color:var(--ink);font-weight:500;}
+
+/* STOIC OR NOT game UI */
+.game-area{margin-top:1.5rem;}
+.stoic-quote-box{background:var(--iv-lt);border:1px solid var(--bd);border-left:3px solid var(--bronze);padding:1.6rem 1.8rem;margin-bottom:1rem;}
+.stoic-q-num{font-family:"DM Mono",monospace;font-size:.6rem;letter-spacing:.18em;color:var(--ink-pale);text-transform:uppercase;margin-bottom:1rem;}
+.stoic-q-txt{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.2rem;color:var(--ink);line-height:1.55;margin-bottom:1.4rem;}
+.stoic-q-choices{display:flex;gap:.7rem;flex-wrap:wrap;}
+.stoic-q-btn{background:transparent;border:1px solid var(--bd-dk);color:var(--ink);padding:.65rem 1.5rem;font-family:"DM Mono",monospace;font-size:.63rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .15s;}
+.stoic-q-btn:hover{background:var(--ink);color:var(--iv);border-color:var(--ink);}
+.stoic-q-btn:disabled{cursor:default;}
+.stoic-q-btn.correct{background:var(--green);color:var(--feedback-green-fg);border-color:var(--green);}
+.stoic-q-btn.wrong{background:var(--red);color:var(--feedback-red-fg);border-color:var(--red);}
+.stoic-feedback{margin-top:1.1rem;padding:1rem 1.2rem;background:var(--iv);border:1px solid var(--bd-lt);font-size:.9rem;color:var(--ink-md);line-height:1.75;font-weight:300;}
+.stoic-feedback .fb-attr{display:block;margin-top:.5rem;font-family:"DM Mono",monospace;font-size:.58rem;letter-spacing:.12em;color:var(--bronze-dk);text-transform:uppercase;}
+.stoic-score{font-family:"Cormorant Garamond",serif;font-size:2rem;color:var(--ink);text-align:center;margin:1rem 0 .5rem;}
+.stoic-score small{font-family:"DM Mono",monospace;font-size:.7rem;letter-spacing:.12em;color:var(--ink-pale);display:block;margin-top:.4rem;text-transform:uppercase;}
+
+/* CONNECTIONS game UI */
+.conn-area{margin-top:1.5rem;}
+.conn-header{margin-bottom:1.2rem;}
+.conn-name{font-family:"Cormorant Garamond",serif;font-size:1.45rem;color:var(--ink);margin-bottom:.3rem;}
+.conn-desc{font-size:.92rem;color:var(--ink-md);line-height:1.7;font-weight:300;font-style:italic;}
+.conn-solved{display:flex;flex-direction:column;gap:.5rem;margin-bottom:.8rem;}
+.conn-solved-row{padding:.8rem 1rem;}
+.conn-solved-name{font-family:"Cinzel",serif;font-size:.75rem;letter-spacing:.13em;text-transform:uppercase;margin-bottom:.3rem;}
+.conn-solved-items{font-family:"Cormorant Garamond",serif;font-size:1.02rem;color:var(--ink-lt);}
+.conn-yellow{background:var(--tile-yellow);color:var(--ink);}
+.conn-green{background:var(--tile-green);color:var(--ink);}
+.conn-blue{background:var(--tile-blue);color:var(--ink);}
+.conn-purple{background:var(--tile-purple);color:var(--ink);}
+.conn-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:1rem;}
+.conn-tile{background:var(--iv-lt);border:1px solid var(--bd);padding:1rem .3rem;font-family:"Cormorant Garamond",serif;font-size:.92rem;color:var(--ink);cursor:pointer;transition:all .15s;line-height:1.2;text-align:center;min-height:64px;}
+.conn-tile:hover{border-color:var(--bronze);background:var(--iv);}
+.conn-selected{background:var(--ink)!important;color:var(--iv)!important;border-color:var(--ink)!important;}
+.conn-status{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.8rem 0;border-top:1px solid var(--bd);flex-wrap:wrap;}
+.conn-mistakes{font-family:"DM Mono",monospace;font-size:.65rem;letter-spacing:.14em;color:var(--ink-md);text-transform:uppercase;}
+.conn-dot{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--bd);margin:0 2px;font-size:0;}
+.conn-dot.conn-dot-on{background:var(--bronze);}
+.conn-submit{background:var(--ink);color:var(--iv);padding:.5rem 1.2rem;font-family:"DM Mono",monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;border:none;cursor:pointer;}
+.conn-submit:hover{background:var(--bronze);}
+.conn-submit-off{background:var(--ink-pale);cursor:not-allowed;}
+.conn-clear{background:transparent;color:var(--ink-md);padding:.5rem 1rem;font-family:"DM Mono",monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;border:1px solid var(--bd-dk);cursor:pointer;}
+.conn-clear:hover{border-color:var(--ink);color:var(--ink);}
+.conn-feedback{text-align:center;height:1.2rem;font-family:"DM Mono",monospace;font-size:.7rem;letter-spacing:.15em;color:var(--bronze);margin:.5rem 0;opacity:0;transition:opacity .2s;}
+.conn-fb-show{opacity:1;}
+.conn-end{text-align:center;margin-top:1.2rem;padding:1.2rem;background:var(--gold-bg);font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.05rem;color:var(--ink);line-height:1.6;}
+.conn-revealed{opacity:.75;}
+
+/* SCHOOL (LOCKED) */
+.school-wrap{max-width:640px;margin:0 auto;text-align:center;padding:2rem 0;}
+.school-seal{width:100px;height:100px;margin:0 auto 2rem;display:block;}
+.school-title{font-family:"Cormorant Garamond",serif;font-size:clamp(2rem,4vw,2.8rem);font-weight:300;color:var(--ink);line-height:1.15;margin-bottom:1rem;}
+.school-title em{color:var(--bronze);font-style:italic;}
+.school-lead{font-size:1rem;color:var(--ink-md);line-height:1.8;margin-bottom:2.5rem;font-weight:300;}
+.school-sample{background:var(--iv-lt);border:1px solid var(--bd);border-left:3px solid var(--bronze);padding:1.6rem 1.8rem;text-align:left;margin-bottom:2.5rem;}
+.school-sample-lbl{font-family:"DM Mono",monospace;font-size:.6rem;letter-spacing:.22em;color:var(--bronze);text-transform:uppercase;margin-bottom:.9rem;}
+.school-sample-q{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.05rem;color:var(--ink-md);margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--bd);line-height:1.55;}
+.school-sample-a{font-size:.98rem;color:var(--ink);line-height:1.75;font-weight:300;}
+.school-sample-src{font-family:"DM Mono",monospace;font-size:.6rem;letter-spacing:.15em;color:var(--ink-pale);margin-top:1rem;text-transform:uppercase;}
+
+/* Sunday Letter sample (continuity proof) */
+.school-letter{background:var(--iv-lt);border:1px solid var(--bd);padding:1.8rem 2rem 1.6rem;text-align:left;margin-bottom:2.5rem;position:relative;}
+.school-letter::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--bronze) 0%,var(--bronze-lt) 50%,var(--bronze) 100%);}
+.school-letter-lbl{font-family:"DM Mono",monospace;font-size:.6rem;letter-spacing:.22em;color:var(--bronze);text-transform:uppercase;margin-bottom:.5rem;}
+.school-letter-date{font-family:"DM Mono",monospace;font-size:.58rem;letter-spacing:.14em;color:var(--ink-pale);text-transform:uppercase;margin-bottom:1.2rem;}
+.school-letter-body{font-family:"Cormorant Garamond",serif;font-size:1.05rem;color:var(--ink-lt);line-height:1.8;font-weight:400;}
+.school-letter-body p{margin-bottom:.9rem;}
+.school-letter-body p:last-of-type{margin-bottom:1.2rem;}
+.school-letter-sig{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.1rem;color:var(--bronze-dk);text-align:right;margin-top:.6rem;}
+.school-letter .ref{color:var(--bronze-dk);font-style:italic;}
+
+/* Tasks artifact (structure proof) */
+.school-tasks{background:var(--iv-lt);border:1px solid var(--bd);padding:1.6rem 1.8rem;margin-bottom:2.5rem;text-align:left;}
+.school-tasks-lbl{font-family:"DM Mono",monospace;font-size:.6rem;letter-spacing:.22em;color:var(--bronze);text-transform:uppercase;margin-bottom:.5rem;}
+.school-tasks-sub{font-family:"DM Mono",monospace;font-size:.58rem;letter-spacing:.14em;color:var(--ink-pale);text-transform:uppercase;margin-bottom:1.1rem;}
+.school-tasks-list{list-style:none;padding:0;margin:0;}
+.school-tasks-list li{display:grid;grid-template-columns:30px 1fr;gap:.7rem;align-items:baseline;padding:.65rem 0;border-bottom:1px solid var(--bd-lt);font-size:.95rem;color:var(--ink-lt);line-height:1.55;font-weight:300;}
+.school-tasks-list li:last-child{border-bottom:none;}
+.school-tasks-mark{font-family:"DM Mono",monospace;font-size:.85rem;color:var(--ink-pale);white-space:nowrap;}
+.school-tasks-list li.done .school-tasks-mark{color:var(--bronze);}
+.school-tasks-list li.done .school-tasks-text{color:var(--ink-pale);}
+.school-tasks-list li.done .school-tasks-text small{color:var(--bronze-dk);}
+.school-tasks-list li.paused .school-tasks-mark{color:var(--ink-pale);}
+.school-tasks-list li.paused .school-tasks-text small{color:var(--ink-pale);font-style:italic;}
+.school-tasks-text small{display:block;font-family:"DM Mono",monospace;font-size:.55rem;letter-spacing:.14em;color:var(--ink-pale);text-transform:uppercase;margin-top:.25rem;}
+.school-bullets{margin:1.8rem 0 2.2rem;padding:0;list-style:none;text-align:left;max-width:440px;margin-left:auto;margin-right:auto;}
+.school-bullets li{padding:.55rem 0;color:var(--ink-lt);font-size:.96rem;font-weight:300;line-height:1.6;display:grid;grid-template-columns:14px 1fr;gap:.8rem;align-items:start;}
+.school-bullets li::before{content:"";width:6px;height:6px;background:var(--bronze);border-radius:50%;margin-top:.55rem;}
+.school-cta{background:var(--ink);color:var(--iv);padding:.9rem 2.3rem;font-family:"DM Mono",monospace;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;display:inline-block;}
+.school-cta:hover{background:var(--bronze);}
+.school-alt{display:inline-block;margin-top:1.2rem;font-family:"DM Mono",monospace;font-size:.65rem;letter-spacing:.15em;color:var(--ink-md);text-transform:uppercase;text-decoration:none;}
+.school-alt:hover{color:var(--bronze);}
+.school-note{margin-top:3rem;padding-top:2rem;border-top:1px solid var(--bd);font-size:.85rem;color:var(--ink-pale);font-style:italic;line-height:1.7;max-width:540px;margin-left:auto;margin-right:auto;}
+
+/* RESPONSIVE */
+@media(max-width:820px){
+  .tabs{gap:0;}
+  .tab{padding:.5rem .7rem;font-size:.6rem;letter-spacing:.13em;}
+  .brand-name{font-size:.85rem;letter-spacing:.18em;}
+  .back{display:none;}
+}
+@media(max-width:640px){
+  .hdr-inner{padding:.7rem 1rem;flex-wrap:wrap;gap:.5rem;}
+  .tabs{order:3;width:100%;justify-content:flex-start;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .tab{flex-shrink:0;}
+  .wrap{padding:2rem 1rem 3rem;}
+  .lib-hdr{grid-template-columns:1fr;}
+  .lib-hdr-num{font-size:1.8rem;}
+  .lib-nav{overflow-x:auto;flex-wrap:nowrap;white-space:nowrap;-webkit-overflow-scrolling:touch;}
+  .lib-nav button{flex-shrink:0;}
+  .games-grid{grid-template-columns:1fr;}
+  .conn-grid{gap:.3rem;}
+  .conn-tile{font-size:.82rem;min-height:58px;padding:.7rem .2rem;}
+  .school-sample{padding:1.2rem 1.4rem;}
+}
+@media(max-width:480px){
+  .sec-title{font-size:1.8rem;}
+  .conn-tile{font-size:.75rem;min-height:52px;}
+}
+</style>
+<script>
+// Theme init — runs before body renders to prevent flash of wrong theme
+(function(){
+  try {
+    var saved = localStorage.getItem('epi_theme');
+    var theme;
+    if (saved === 'dark' || saved === 'light'){
+      theme = saved;
+    } else {
+      theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  } catch(e){}
+})();
+</script>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-inner">
+    <a href="/" class="brand">
+      <svg class="brand-svg" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="19" fill="none" stroke="#8A6A20" stroke-width="1.5"/>
+        <circle cx="20" cy="20" r="16" fill="#1C1408"/>
+        <text x="20" y="26" text-anchor="middle" font-family="Georgia,serif" font-size="18" fill="#C9A84C">E</text>
+      </svg>
+      <span class="brand-name">EPICT<span>E</span>TUS</span>
+    </a>
+    <div class="tabs">
+      <button class="tab active" data-view="library" onclick="switchView('library', this)">Library</button>
+      <button class="tab" data-view="games" onclick="switchView('games', this)">Games</button>
+      <button class="tab locked" data-view="school" onclick="switchView('school', this)">Enter the School</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:.6rem;">
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle light/dark theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+      <a href="/" class="back">← epictetus.world</a>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE MENU (unused right now, kept for future auth) -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="wrap">
+
+<!-- LIBRARY -->
+<section class="view show" id="view-library">
+  <span class="sec-label">The Library</span>
+  <h1 class="sec-title">Where <em>Stoicism begins.</em></h1>
+  <p class="sec-lead">Everything here is enough to begin. The teacher is not required to understand Stoicism — he is for what happens after you begin practicing it.</p>
+
+  <div class="lib-nav">
+    <button class="active" onclick="switchLib('practices', this)">Practices</button>
+    <button onclick="switchLib('paths', this)">Reading Paths</button>
+    <button onclick="switchLib('framework', this)">Framework</button>
+    <button onclick="switchLib('glossary', this)">Glossary</button>
+    <button onclick="switchLib('quotes', this)">Quotes</button>
+    <button onclick="switchLib('texts', this)">Texts</button>
+  </div>
+
+  <!-- PRACTICES -->
+  <div class="lib-section show" id="lib-practices">
+    <div id="practices-list">
+      <div class="lib-hdr">
+        <div class="lib-hdr-num">I</div>
+        <div>
+          <h2>The Practices</h2>
+          <p>Start here. Twenty-one Stoic exercises, drawn from Epictetus, Marcus Aurelius, Seneca, and Musonius. Pick one. Try it today. Return tomorrow.</p>
+        </div>
+      </div>
+      <div class="lib-list" id="practicesList"></div>
+    </div>
+    <div class="detail" id="practices-detail"></div>
+  </div>
+
+  <!-- READING PATHS -->
+  <div class="lib-section" id="lib-paths">
+    <div id="paths-list">
+      <div class="lib-hdr">
+        <div class="lib-hdr-num">II</div>
+        <div>
+          <h2>Reading Paths</h2>
+          <p>Six curated routes through the material. When you know what you are dealing with — anger, loss, indecision — there is a path.</p>
+        </div>
+      </div>
+      <div class="lib-list" id="pathsList"></div>
+    </div>
+    <div class="detail" id="paths-detail"></div>
+  </div>
+
+  <!-- FRAMEWORK -->
+  <div class="lib-section" id="lib-framework">
+    <div class="lib-hdr emph">
+      <div class="lib-hdr-num">III</div>
+      <div>
+        <h2>The Framework</h2>
+        <p>How Epictetus organized the work. Not a theory to memorize. A structure you will come to recognize in your own days, once you know what to look for.</p>
+      </div>
+    </div>
+    <div id="frameworkBody"></div>
+  </div>
+
+  <!-- GLOSSARY -->
+  <div class="lib-section" id="lib-glossary">
+    <div class="lib-hdr">
+      <div class="lib-hdr-num">IV</div>
+      <div>
+        <h2>Glossary</h2>
+        <p>Fifty-eight terms. Greek, Latin, English. Look them up when you meet them. They are labels for things you already experience.</p>
+      </div>
+    </div>
+    <div class="gloss-search"><input type="text" id="glossSearch" placeholder="Search terms..." oninput="filterGlossary()"></div>
+    <div class="gloss-cats" id="glossCats"></div>
+    <div id="glossaryList"></div>
+  </div>
+
+  <!-- QUOTES -->
+  <div class="lib-section" id="lib-quotes">
+    <div class="lib-hdr">
+      <div class="lib-hdr-num">V</div>
+      <div>
+        <h2>Quotes</h2>
+        <p>Twenty-one passages. From Epictetus through Arrian, from Marcus Aurelius's private notebook, from Seneca's letters, from Musonius.</p>
+      </div>
+    </div>
+    <div id="quotesList"></div>
+  </div>
+
+  <!-- TEXTS -->
+  <div class="lib-section" id="lib-texts">
+    <div class="lib-hdr">
+      <div class="lib-hdr-num">VI</div>
+      <div>
+        <h2>The Texts</h2>
+        <p>Primary sources on this site, chapter by chapter, with commentary. In progress. The Enchiridion first. Discourses, Meditations, and Seneca's letters to follow.</p>
+      </div>
+    </div>
+    <div class="texts-coming">In progress.</div>
+    <div class="texts-note"><strong>A note on attribution.</strong> These texts are preserved from Epictetus's teaching, recorded by his student Arrian.</div>
+  </div>
+</section>
+
+<!-- GAMES -->
+<section class="view" id="view-games">
+  <span class="sec-label">Games of Virtue</span>
+  <h1 class="sec-title">Stoicism, <em>practiced.</em></h1>
+  <p class="sec-lead">Six games. Each trains a specific Stoic muscle — the archer builds aim in advance of the moment it is needed.</p>
+
+  <div class="games-grid">
+    <div class="game-card">
+      <h3>Stoic or Not?</h3>
+      <p>Twenty-five quotes. Authentic Stoic philosophy or modern self-help dressed in togas? Begin, and find out.</p>
+      <div id="stoicArea" class="game-area"><button class="game-btn" onclick="startStoicGame()">Begin</button></div>
+    </div>
+    <div class="game-card">
+      <h3>The Connections</h3>
+      <p>Sixteen terms. Four hidden groupings. Find all four without four mistakes.</p>
+      <div id="connArea" class="game-area"><button class="game-btn" onclick="startConnections()">Begin puzzle</button></div>
+    </div>
+    <div class="game-card game-locked">
+      <h3>The Dichotomy Sorter</h3>
+      <p>Paste your worries. Epictetus sorts them: what is mine, what is not.</p>
+      <button class="game-btn" onclick="goToSchool()">Available to members</button>
+    </div>
+    <div class="game-card game-locked">
+      <h3>The Moral Dilemma</h3>
+      <p>Sixteen real dilemmas. Epictetus judges your answer against Stoic doctrine. No flattery.</p>
+      <button class="game-btn" onclick="goToSchool()">Available to members</button>
+    </div>
+    <div class="game-card game-locked">
+      <h3>The Examination</h3>
+      <p>Twenty questions on the Discourses. Answer honestly. Epictetus grades.</p>
+      <button class="game-btn" onclick="goToSchool()">Available to members</button>
+    </div>
+    <div class="game-card game-locked">
+      <h3>Role Reversal</h3>
+      <p>You play Epictetus. A struggling student comes to you. What do you say?</p>
+      <button class="game-btn" onclick="goToSchool()">Available to members</button>
+    </div>
+  </div>
+
+  <div class="games-note"><strong>Two games are open.</strong> Four require speaking with the teacher. Those live inside the School.</div>
+</section>
+
+<!-- ENTER THE SCHOOL -->
+<section class="view" id="view-school">
+  <div class="school-wrap">
+    <svg class="school-seal" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="48" fill="none" stroke="#9A7020" stroke-width="1.5"/>
+      <circle cx="50" cy="50" r="40" fill="none" stroke="#C9A84C" stroke-width="0.7" opacity="0.6"/>
+      <text x="50" y="66" text-anchor="middle" font-family="Cinzel Decorative, Georgia, serif" font-size="46" fill="#9A7020">E</text>
+    </svg>
+
+    <span class="sec-label">The School</span>
+    <h1 class="school-title">Talk with <em>your teacher.</em></h1>
+
+    <p class="school-lead">The Library is open to everyone. The teacher is for those who come to study directly with him. He remembers what you worked on. He follows up. The conversation does not reset.</p>
+
+    <div class="school-sample">
+      <div class="school-sample-lbl">What the teacher sounds like</div>
+      <div class="school-sample-q">My colleague humiliated me in a meeting and I cannot let it go.</div>
+      <div class="school-sample-a">You say he injured you. Did he injure your reason? Your character? Then what has he injured — your pride. And who built that? Return to work.</div>
+      <div class="school-sample-src">Discourses IV.5</div>
+    </div>
+
+    <div class="school-letter">
+      <div class="school-letter-lbl">What he sends you each Sunday</div>
+      <div class="school-letter-date">Sunday · The teacher's letter, week three</div>
+      <div class="school-letter-body">
+        <p>Marcus —</p>
+        <p><span class="ref">Last Sunday I asked you</span> to name three things at your work that were yours to command, and three that were not.</p>
+        <p>You sent the list on Wednesday. I read it that evening.</p>
+        <p>The first three were good. The second three, less so — you put your manager's mood in the wrong column. His mood is his. Your interpretation of his mood is yours. Be careful with that distinction.</p>
+        <p><span class="ref">You also wrote on Tuesday</span> that the meeting with Daniel went badly. You said you were "blindsided." Were you? Or were you unprepared in a way you had been warned about, by yourself, the previous week?</p>
+        <p>This week, one task. When you find yourself building the case against another person in your head, stop. Write down what they actually did, in plain sentences. Read it back. See whether the case still holds.</p>
+        <div class="school-letter-sig">— E.</div>
+      </div>
+    </div>
+
+    <div class="school-tasks">
+      <div class="school-tasks-lbl">This week's work</div>
+      <div class="school-tasks-sub">Assigned by Epictetus · Week three</div>
+      <ul class="school-tasks-list">
+        <li><span class="school-tasks-mark">[ ]</span><span class="school-tasks-text">Separate what is in your control in your next conflict</span></li>
+        <li><span class="school-tasks-mark">[ ]</span><span class="school-tasks-text">Write down what your colleague actually did, in plain sentences</span></li>
+        <li class="done"><span class="school-tasks-mark">[✓]</span><span class="school-tasks-text">Evening examination<small>3 days completed</small></span></li>
+        <li class="paused"><span class="school-tasks-mark">[—]</span><span class="school-tasks-text">Premeditatio malorum<small>paused</small></span></li>
+      </ul>
+    </div>
+
+    <ul class="school-bullets">
+      <li>He remembers what you have been working on.</li>
+      <li>Each week: one practice assigned, one follow-up question, one Sunday letter reviewing your progress.</li>
+      <li>Every answer cites a real source in the texts.</li>
+    </ul>
+
+    <a href="/#member" class="school-cta">Become a Member — €10 / month</a>
+    <br>
+    <a href="/#door" class="school-alt">Cannot afford it? The Open Door →</a>
+
+    <p class="school-note">The teacher is a working product being built now. Members who join early help fund the work. Cancel anytime.</p>
+  </div>
+</section>
+
+</div>
+
+<!-- DATA ARRAYS (extracted verbatim from previous app.html) -->
+<script>
+var PRACTICES=[{section:"stoic",name:"The Dichotomy of Control",greek:"Ta eph' hēmin / Ta ouk eph' hēmin",latin:"τὰ ἐφ' ἡμῖν / τὰ οὐκ ἐφ' ἡμῖν",source:"Epictetus, Enchiridion 1",duration:"15 minutes",what:"Draw a clear line between what is yours and what is not. This is where Stoicism begins.",steps:["Take paper. Draw two columns: In my power / Not in my power.","List everything on your mind right now.","Sort each item honestly. Body, reputation, and others' behaviour go in the second column.","For each item Not in my power: write \"I release this.\"","For each item In my power: write one action you will take today."],why:"Epictetus opened the Enchiridion with this distinction. It was not an introduction. It was the whole philosophy."},{section:"stoic",name:"The Three Disciplines",greek:"Tris topoi",latin:"τρεῖς τόποι",source:"Epictetus, Discourses III.2",duration:"Ongoing",what:"Assent, desire, action. The three fields in which Stoic training occurs. Watch your judgements; train your wants; regulate your conduct.",steps:["Morning: which impressions am I likely to face today, and which will I assent to?","Throughout the day: is this desire for something in my power, or something not?","Before each action: is this what duty requires, held with a reserve clause?","Evening: in which of the three did I fall short?"],why:"Epictetus organised all Stoic training into these three. Every practice fits under one of them."},{section:"stoic",name:"Continuous Attention",greek:"Prosochē",latin:"προσοχή",source:"Epictetus, Discourses IV.12",duration:"All day",what:"The continuous watchfulness of the mind over its own judgements. Without prosochē, philosophy is only words.",steps:["Choose one trigger that repeats through your day (e.g. every time you unlock your phone).","At each trigger, ask: what is my mind doing right now? What impression is forming?","Ask: have I assented to anything without examining it?","Return to reason. Continue."],why:"Attention must be continuous, or it is nothing. Epictetus made this the cardinal practice."},{section:"stoic",name:"The Evening Examination",greek:"Examen",latin:"examen conscientiae",source:"Seneca, On Anger III.36 (who credits Sextius)",duration:"10 minutes",what:"Before sleep, put the day on trial before yourself. Not to punish. To observe.",steps:["Find a quiet moment after everyone is silent.","Ask: where did I fall short today? What habit won where reason should have?","Ask: where did I act well? Acknowledge it without vanity.","Ask: what would I do differently?","Close with: tomorrow I begin again."],why:"Seneca describes this as daily pleading one's case before oneself. Originally Pythagorean; Sextius formalised it; the Stoics made it their own."},{section:"stoic",name:"Morning Preparation",greek:"Praemeditatio",latin:"praemeditatio diei",source:"Marcus Aurelius, Meditations II.1",duration:"5 minutes",what:"Before the day begins, rehearse what you will meet. Difficult people. Interruptions. Your own weakness.",steps:["On waking, before any input: sit one minute with the coming day.","Say to yourself: I will meet the ungrateful, the arrogant, the envious. None of them can injure my character.","Choose one Stoic principle to hold through the day.","Rise prepared, not reactive."],why:"Marcus opens Meditations II this way. The day is not neutral. Prepare the soul for it."},{section:"stoic",name:"Premeditation of Adversity",greek:"Praemeditatio malorum",latin:"praemeditatio malorum",source:"Seneca, Letters 91; Letters 18",duration:"10 minutes",what:"Deliberately contemplate loss, failure, and death. Not to suffer in advance, but to strip these events of their power to shock.",steps:["Choose one thing you value: a person, your health, your work.","Close your eyes. Imagine it lost. Not someday. Now.","Sit with that feeling for two full minutes. Do not distract yourself.","Open your eyes. That thing is still here. Treat it accordingly today."],why:"Seneca: \"Rehearse them in your mind: exile, torture, war, shipwreck. All the terms of our human lot should be before our eyes.\""},{section:"stoic",name:"The View from Above",greek:"Ta enkosmia",latin:"visio ex alto",source:"Marcus Aurelius, Meditations VII.48, IX.30, XII.24",duration:"8 minutes",what:"Rise above your situation. See it from a distance. Distance is not indifference; it is clarity.",steps:["Think of something troubling you right now.","Imagine rising above it, first to the ceiling, then above your building, then above your city.","See your problem from that height. How large does it appear?","Now imagine a hundred years from now. Who will remember this?","Bring that perspective back into the day. Act from it."],why:"Marcus returned to this exercise throughout the Meditations. See all human affairs as from on high, he wrote. The spectacle becomes teaching."},{section:"stoic",name:"Contemplation of Mortality",greek:"Meletē thanatou",latin:"meditatio mortis",source:"Epictetus, Discourses III.24; Marcus Aurelius throughout",duration:"10 minutes",what:"Remember you will die. Not morbid. Clarifying. What would you do differently today if you truly held this in mind?",steps:["Sit quietly. Say aloud: I will die. I do not know when.","Ask: given this, what matters today?","Write three things you have been postponing out of a false sense of future.","Choose one. Do it today.","Tonight: did I live as someone who knows their time is limited?"],why:"Marcus wrote of death on nearly every page. Epictetus told students to rehearse it daily. You could leave life right now, Marcus said. Let that determine what you do and say and think."},{section:"stoic",name:"The Reserve Clause",greek:"Hupexhairesis",latin:"ὑπεξαίρεσις",source:"Epictetus, Discourses II.6; Marcus Aurelius IV.1",duration:"Before each major action",what:"Every action is taken with an implicit qualifier: I will do this, if nothing prevents it. Full commitment without attachment to outcomes.",steps:["Before an important action, state your intention plainly.","Add the reserve: if nothing beyond my control intervenes.","Act as if the outcome depended entirely on you.","Accept the outcome as if it depended entirely on fate."],why:"Marcus: I will sail, if nothing prevents me. This preserves agency without breeding attachment."},{section:"stoic",name:"Voluntary Hardship",greek:"Ponos",latin:"exercitatio",source:"Musonius Rufus, Lecture 6",duration:"Varies",what:"Practise what you do not fear by facing lesser versions of it. Cold, heat, hunger, fatigue. The body trained; the soul proved.",steps:["Choose one discomfort for today: a cold shower, skipped meal, walk instead of transport, no heat for an hour.","Enter it by choice, not accident.","As you endure it, say: this is nothing. I am choosing this.","Notice: my fear of this was larger than the thing itself."],why:"Musonius taught that philosophy practised in comfort alone is performance. The body must be trained so that virtue has an instrument. Discipline yourself to cold, heat, thirst, hunger, hard beds, patience under suffering."},{section:"stoic",name:"Voluntary Poverty",greek:"Penia hekousion",latin:"paupertas voluntaria",source:"Seneca, Letters 18; Musonius Rufus",duration:"One full day",what:"Live for a day as if you had very little. Seneca called it practising poverty. Not to suffer. To see what poverty actually is, before fortune decides for you.",steps:["Choose one full day. Tell no one.","Eat simple food: bread, water, something plain. Nothing indulgent.","Do not spend money beyond necessities.","Remove one habitual comfort: entertainment, transport, heat, whatever you rely on.","At day's end: is the thing I feared as bad as I feared? What did I not need?"],why:"Seneca: \"Set aside a certain number of days, during which you shall be content with the scantiest and cheapest fare, with coarse and rough dress, saying to yourself the while: 'Is this the condition that I feared?'\""},{section:"stoic",name:"Simple Diet",greek:"Autarkēs trophē",latin:"diaeta simplex",source:"Musonius Rufus, Lectures 18A and 18B",duration:"Ongoing",what:"Eat for nourishment, not pleasure. Plain food, moderate quantity, no rituals of gastronomy. The stomach is the first teacher of self-control.",steps:["Choose simple food today. Nothing fried, nothing designed for indulgence.","Each time you feel the pull for something more elaborate, pause. Ask: is this hunger or habit?","Eat when necessary. Stop when satisfied, not when the plate is empty.","At day's end: did my mind feel clearer or cloudier? Heavier or lighter?"],why:"Musonius devoted an entire lecture to food. Philosophy, he said, begins with what you put in your body. The wise man eats as if food were indifferent, which it is."},{section:"stoic",name:"Abstaining from Pleasures",greek:"Apochē hēdonōn",latin:"abstinentia",source:"Musonius Rufus, Lecture 6; Epictetus, Enchiridion 34",duration:"On demand",what:"When a pleasure calls you, notice. Do not obey reflexively. Ask what the pleasure is actually worth, and what accepting it will cost.",steps:["When a pleasure presents itself, pause before the yes.","Consider: how will I feel after? Proud of my self-mastery, or regretful?","Choose from that second picture, not from the first impulse.","If you decline: note the freedom. If you accept: note whether the thing was worth the price."],why:"Epictetus: when an appearance of pleasure seizes you, do not allow yourself to be carried away by it. Delay it. Give time to a different judgement."},{section:"stoic",name:"Remembering Exemplars",greek:"Mnēmē paradeigmatōn",latin:"memoria exemplorum",source:"Epictetus, Discourses I.1, IV.1; Seneca, Letters 104",duration:"5 minutes",what:"Hold in mind the figures who embodied the philosophy. Socrates. Diogenes. Cato. Agrippinus. Lateranus. Their example is instruction.",steps:["Choose one exemplar to keep in mind today.","Recall one specific thing they did under pressure.","Ask: what would this person do in the situation I will face?","Act accordingly, or note honestly why you did not."],why:"Epictetus cited specific men again and again. Not as stories. As standards. When Agrippinus was condemned he asked only if there was time for exercise. When Lateranus stretched his neck to the executioner's sword he spoke of philosophy. These were not heroes; they were trained."},{section:"stoic",name:"Philosophical Journaling",greek:"Hupomnēmata",latin:"commentarii",source:"Marcus Aurelius, Meditations (the whole work)",duration:"10 minutes",what:"Write to yourself, not for an audience. Keep the doctrines alive by rewriting them in your own words, applied to your own circumstances.",steps:["Take a private notebook. This is not for others.","Write a Stoic principle you want to hold today.","Rewrite it in your own words, applied to your specific situation.","At day's end, write one sentence about how you used it, or failed to."],why:"Marcus's Meditations is this exercise, in public. He was not writing a book. He was training himself, one passage at a time, at his tent in the field camps on the Danube. The book survives because he did the work."},{section:"hellenistic",name:"Reading the Philosophers",greek:"Anagnōsis",latin:"ἀνάγνωσις",source:"Philo, Her. 253; Epictetus, Discourses III.23",duration:"20 minutes",what:"Read primary sources, not secondhand. A paragraph of Seneca, a chapter of Epictetus, a page of Marcus. Slowly. Twice.",steps:["Choose a short passage: one letter of Seneca, one chapter of the Enchiridion, or one book of the Meditations.","Read it once for the argument.","Read it again, slower, for the specific words.","Write the one sentence you most need to hear today."],why:"Philo lists reading among the essential philosophical exercises. Epictetus was mocked if he thought reading alone made a philosopher, but he demanded his students read, and read well. Reading is not study; reading is training the attention."},{section:"hellenistic",name:"Listening Well",greek:"Akroasis",latin:"ἀκρόασις",source:"Philo, Her. 253; Epictetus, Discourses II.24",duration:"During any conversation",what:"The philosopher listens more than speaks. Not to wait for a turn. To understand what the other is actually saying, including what they cannot say directly.",steps:["Enter the next conversation with the intention to listen more than speak.","Hear the other person out fully before composing your response.","Repeat back what you understood before disagreeing.","Notice how the conversation changes when you actually listen."],why:"Epictetus: nature has given us one tongue but two ears, that we may hear twice as much as we speak. Listening is an active exercise, not passive reception."},{section:"hellenistic",name:"Inquiry",greek:"Zētēsis",latin:"ζήτησις",source:"Philo, Her. 253; Epictetus, Discourses II.11",duration:"30 minutes",what:"Sit with a philosophical question until you have genuinely examined it. Not read about it. Thought about it.",steps:["Choose one question: What is actually good? Is this in my power? What would a wise person do here?","Write the question at the top of a page.","Think on paper. Follow the thread, even when it leads somewhere uncomfortable.","Stop when you have reached something you did not know you thought."],why:"Inquiry is the step from received doctrine to owned understanding. Epictetus: the first business of the philosopher is to reject self-conceit. You cannot inquire while still pretending to know."},{section:"hellenistic",name:"Self-Mastery",greek:"Enkrateia",latin:"ἐγκράτεια",source:"Philo, Her. 253; Musonius Rufus, Lecture 6",duration:"Ongoing",what:"The disposition that keeps passion within the bounds of reason. Not the absence of desire, but desire that serves rather than rules.",steps:["Identify one area where passion currently rules you: food, drink, anger, screens, comfort.","Set a specific limit for today in that area.","Hold the limit not grimly but precisely. Reason decides; passion obeys.","Note: the limit becomes easier the second day. And the tenth."],why:"Both Philo and Musonius name enkrateia as central. Shared across Stoic, Platonist, and Cynic practice. Without self-mastery, nothing else holds."},{section:"hellenistic",name:"Indifference to Indifferents",greek:"Adiaphoria",latin:"ἀδιαφορία",source:"Philo, Her. 253; applied Stoic doctrine",duration:"Situational",what:"Practised indifference toward the things that are neither good nor evil in themselves. Not pretended; trained.",steps:["Name one external you have been treating as good or evil: a meeting outcome, another's opinion, money, weather.","Say aloud: this is an indifferent. It cannot make me good. It cannot make me evil.","Act toward it with appropriate care, not with fear or craving.","Notice: when treated as indifferent, it becomes easier to handle well."],why:"Philo lists this practice because every ancient school required it. The Stoic takes it further than most: only virtue is good. Everything else is to be held loosely."},{section:"hellenistic",name:"Remembrance of Good Things",greek:"Mnēmē agathōn",latin:"memoria bonorum",source:"Philo, Leg. 3.18; Marcus Aurelius, Meditations I",duration:"10 minutes",what:"Deliberately call to mind what is already yours, what you have already received, what was given and can be returned without loss.",steps:["List five people or circumstances you are grateful for today.","For each, add: and which was always borrowed, and may be returned.","Sit with that. Not in grief. In clear-eyed appreciation.","Ask: am I treating these borrowed things with the care they deserve?"],why:"The first book of Marcus's Meditations is this exercise, written out. He names what he received from his grandfather, his mother, his teachers, the gods. Not sentimental. Precise. Memory is training."}];
+
+var READING_PATHS=[{id:'anger',icon:'🔥',name:'If you are angry',desc:'Begin with the cause. Epictetus had Epaphroditus. You have your office.',steps:[{title:'Enchiridion Chapter 1',text:'Read it twice. The dichotomy of control. Everything else follows from this.'},{title:'Discourses Book I, Ch. 18',text:'On the man who is not afraid of tyrants. Your anger is directed at a tyrant of your own making.'},{title:'Seneca — On Anger, Book I',text:"Seneca's most thorough work. He was prone to anger himself. That makes him credible."},{title:'Discourses Book II, Ch. 10',text:'How can one act rightly toward every man? Begin here when your anger is toward a specific person.'},{title:'Meditations Book XI, Ch. 9',text:'Marcus on how to respond to the difficult man. Do not respond how you feel.'}]},{id:'fear',icon:'🌑',name:'If you are afraid',desc:'Fear is always about the future. The future is not yours. This path begins with that fact.',steps:[{title:'Enchiridion Chapter 5',text:'It is not things that disturb us but our judgements about things.'},{title:'Discourses Book I, Ch. 1',text:'On freedom. Agrippinus. Lateranus. Men who had everything to fear and feared nothing.'},{title:'Seneca — On the Shortness of Life',text:'Most fear is about time. Seneca dismantles this in 80 pages.'},{title:'Enchiridion Chapter 17',text:'Remember you are an actor in a play. The Author has assigned your role. Fear is refusing to play it.'},{title:'Meditations Book IV, Ch. 3',text:'Marcus on how brief everything is. Not to cause despair — to release the grip of fear.'}]},{id:'loss',icon:'⚖️',name:'If you have lost something',desc:'Loss is the great Stoic test. Epictetus lost his freedom before he had it.',steps:[{title:'Enchiridion Chapter 11',text:'"Never say I have lost it, but I have restored it." Begin here.'},{title:'Discourses Book III, Ch. 24',text:'On freedom from fear of want. On what is truly ours and what was always borrowed.'},{title:'Seneca — Letters, Letter 77',text:'On the right time to die. On loss as completion, not subtraction.'},{title:'Meditations Book IX, Ch. 3',text:'Marcus on how everything changes. On finding peace with what cannot be changed.'},{title:'Enchiridion Chapter 16',text:"Weeping for one's wife or child. What Epictetus says, and why."}]},{id:'purpose',icon:'🌐',name:'If you have lost your purpose',desc:'Meaning is not found. It is chosen.',steps:[{title:'Enchiridion Chapters 1 and 2',text:'What is yours. What is not. Purpose begins with this sorting, not with inspiration.'},{title:'Discourses Book I, Ch. 2',text:"On maintaining one's character under all circumstances. Character is purpose made concrete."},{title:'Musonius Rufus — Lecture 6',text:'On hardship. On how difficulty is the gymnasium of character. Purpose is built, not revealed.'},{title:'Meditations Book VI, Ch. 2',text:"Marcus on his daily purpose. Not grand — simple. Do what nature requires. Do it excellently."},{title:"Seneca — Letters, Letter 1",text:'"Claim time as your own." The first letter. The most important single page in Stoic literature.'}]},{id:'relationships',icon:'⚡',name:'If someone is making your life difficult',desc:'People are not obstacles. They are the practice.',steps:[{title:'Enchiridion Chapter 42',text:'On the man who does evil. He has not been taught better. This is the Stoic response.'},{title:'Discourses Book II, Ch. 22',text:'On friendship. On what it means to truly care for another person as a Stoic.'},{title:'Meditations Book IX, Ch. 42',text:'Marcus on thinking about the souls of others. Seeing them clearly, not as obstacles.'},{title:'Enchiridion Chapter 30',text:'Your duties to others. What you owe people, and what you do not.'},{title:"Seneca — Letters, Letter 47",text:'On the treatment of slaves. On how we are required to treat every human being.'}]},{id:'beginning',icon:'⊕',name:'If you are new to Stoicism',desc:'One text. Then another. Then practice.',steps:[{title:'Enchiridion — All 53 chapters',text:'Read the whole thing. 45 minutes. The entire philosophy. Then read it again.'},{title:'Discourses Book I, Ch. 1 and Ch. 2',text:'The classroom. Epictetus speaking directly. Harder than the Enchiridion, more alive.'},{title:'Meditations Book II',text:'Marcus applying the principles to his own life. See what practice looks like in a real human.'},{title:'Seneca — On the Shortness of Life',text:'The most accessible entry point. 80 pages. Read in one sitting.'},{title:'Start the daily practice',text:'Now use the Practice tab. The Dichotomy exercise. Today. Not tomorrow.'}]}];
+
+var GLOSSARY=[{term:"Prohairesis",latin:"προαίρεσις",cat:"foundations",def:"The faculty of choice. The seat of our will and moral character. Epictetus considered this the only thing truly ours. Everything else (body, reputation, property) belongs to externals. Prohairesis alone cannot be taken by force.",quote:"\"Some things are in our control and others not. Things in our control are opinion, pursuit, desire, aversion, our own actions. Things not in our control are body, property, reputation, command.\" — Enchiridion I"},{term:"Hegemonikon",latin:"ἡγεμονικόν",cat:"foundations",def:"The ruling faculty of the soul. The command centre of the mind. The Stoics identified this with reason. It is the part of us that judges, assents, and directs action. Epictetus saw its care as the primary philosophical task.",quote:"\"Take care of your ruling faculty above all else.\" — Discourses III.9"},{term:"Logos",latin:"λόγος",cat:"foundations",def:"Reason. The rational principle governing the universe. To live rationally is to live in accordance with it. This is what living according to nature means: not returning to the woods, but living by reason. Logos is also the principle in each person that connects us to the cosmic whole.",quote:"\"Live according to nature, which is reason.\" — from Discourses"},{term:"Phantasia",latin:"φαντασία",cat:"foundations",def:"Impression. The appearance of a thing to the mind before we have judged it. Epictetus insisted the impression itself is not the problem. The problem is our assent to it. The work of philosophy begins here: between the impression and the judgement.",quote:"\"It is not things that disturb us, but our judgements about things.\" — Enchiridion 5"},{term:"Synkatathesis",latin:"συγκατάθεσις",cat:"foundations",def:"Assent. The mind's act of saying yes to an impression and granting it the status of truth. For the Stoic, this is where freedom lives. You cannot control impressions. You can withhold or give assent.",quote:"\"Make it your business to confront every harsh impression with: You are but an impression, and not at all the thing you appear to be.\" — Discourses II.18"},{term:"Oikeiosis",latin:"οἰκείωσις",cat:"foundations",def:"Self-appropriation. The natural affinity every creature has first for its own survival, then extending outward to family, community, and eventually all of humanity. The Stoic foundation of ethics: we are wired to care, and the philosophical task is to extend that care as widely as reason demands.",quote:"\"We were born for cooperation, like feet, like hands, like eyelids.\" — Meditations II.1"},{term:"Arete",latin:"ἀρετή",cat:"foundations",def:"Excellence or virtue. Not a moralistic abstraction but the specific excellence proper to a thing. The arete of a knife is to cut well. The arete of a human is to reason well and live accordingly. For the Stoic, arete is the only good.",quote:"\"Virtue is the only good, vice the only evil. All else is indifferent.\" — Stoic doctrine"},{term:"Kakia",latin:"κακία",cat:"foundations",def:"Vice. The opposite of arete. Not just bad behaviour but the corrupted condition of the soul that produces it. Every vice is a form of false judgement about what matters.",quote:"\"No man is willingly bad; vice proceeds from ignorance of the good.\" — Socratic doctrine adopted by the Stoa"},{term:"Eudaimonia",latin:"εὐδαιμονία",cat:"foundations",def:"Flourishing. The Stoic end goal. Not happiness in the modern sense (pleasure, comfort) but the deep wellbeing that comes from living in accordance with virtue and reason. Always available to anyone, regardless of circumstance.",quote:"\"I must die. Must I then die lamenting?\" — Discourses I.1"},{term:"Telos",latin:"τέλος",cat:"foundations",def:"The end or purpose. For the Stoics, the human telos is eudaimonia achieved through virtue. Everything else (health, wealth, reputation) is instrumental at best and ruinous at worst.",quote:"\"The goal of life is to live in agreement with nature.\" — Zeno's formulation of the Stoic telos"},{term:"Sophia",latin:"σοφία",cat:"virtues",def:"Wisdom. The first of the four cardinal Stoic virtues. The knowledge of what is good, bad, and indifferent. Wisdom is not erudition; it is the practical capacity to judge rightly in concrete circumstances.",quote:"\"Of all things which wisdom acquires to produce the blessedness of the complete life, by far the greatest is the possession of friendship.\" — Stoic doctrine via Seneca"},{term:"Andreia",latin:"ἀνδρεία",cat:"virtues",def:"Courage. The second cardinal virtue. Not recklessness, not absence of fear, but the capacity to act rightly in the face of fear. Epictetus, a slave, defined courage by action under threat of violence.",quote:"\"If you wish to be a philosopher, expect to be laughed at.\" — Enchiridion 22"},{term:"Dikaiosyne",latin:"δικαιοσύνη",cat:"virtues",def:"Justice. The third cardinal virtue. The disposition to give to each what is owed: to the gods reverence, to parents respect, to children care, to strangers hospitality, to oneself honest judgement.",quote:"\"What is not good for the hive is not good for the bee.\" — Meditations VI.54"},{term:"Sophrosyne",latin:"σωφροσύνη",cat:"virtues",def:"Temperance or self-mastery. The fourth cardinal virtue. The disposition to moderate desire and aversion, to neither overvalue pleasures nor overfear pains. Literally: soundness of mind.",quote:"\"The greatest wealth is a poverty of desires.\" — Seneca"},{term:"Megalopsychia",latin:"μεγαλοψυχία",cat:"virtues",def:"Greatness of soul. The disposition that refuses to be diminished by external circumstance. A subvirtue of courage. The ability to bear both fortune and misfortune without losing oneself.",quote:"\"He who has a great soul will not be troubled by small things.\" — Stoic maxim"},{term:"Eupatheia",latin:"εὐπάθεια",cat:"virtues",def:"Good feeling. The rational counterpart to the irrational passions (pathē). The Stoic sage does not lack emotion; the sage feels eupatheiai: rational joy (chara), rational caution (eulabeia), and rational wishing (boulesis).",quote:"\"The wise man is not without feeling. He is without irrational passion.\" — Stoic doctrine"},{term:"Pathos",latin:"πάθος",cat:"passions",def:"Passion. A movement of the soul contrary to reason, caused by false judgement. The four primary pathē are pleasure, desire, pain, and fear. The Stoic aim is not to suppress feeling but to eliminate the false judgements that produce these four.",quote:"\"Passion is the movement of the soul against nature, in disobedience to reason.\" — Zeno, via Diogenes Laertius"},{term:"Epithymia",latin:"ἐπιθυμία",cat:"passions",def:"Irrational desire. One of the four pathē. The movement of the soul toward something judged (falsely) to be a present good. Epithymia differs from boulesis (rational wishing) in that it lacks reason's endorsement.",quote:"\"Do not seek for things to happen the way you want them to; rather, wish that what happens happen the way it happens.\" — Enchiridion 8"},{term:"Phobos",latin:"φόβος",cat:"passions",def:"Fear. One of the four pathē. The movement of the soul away from something judged (falsely) to be a future evil. Since no external thing is truly evil, fear is always a form of confusion.",quote:"\"What upsets people is not events themselves, but their judgements about those events.\" — Enchiridion 5"},{term:"Lype",latin:"λύπη",cat:"passions",def:"Grief or distress. One of the four pathē. The contraction of the soul when a present event is judged (falsely) to be evil. The Stoic does not forbid grief at the level of instinct but refuses to sustain it through false judgement.",quote:"\"If you are distressed by anything external, the pain is not due to the thing itself but to your estimate of it.\" — Meditations VIII.47"},{term:"Hedone",latin:"ἡδονή",cat:"passions",def:"Irrational pleasure. One of the four pathē. The expansion of the soul toward a present event judged (falsely) to be good. The Stoics distinguished this from chara (rational joy), which the sage feels at the exercise of virtue itself.",quote:"\"Pleasure is not the end of life, but a by-product of right action.\" — Stoic position against Epicureanism"},{term:"Apatheia",latin:"ἀπάθεια",cat:"passions",def:"Not the absence of feeling, but the absence of irrational passion. Commonly mistranslated as apathy, which misses the point entirely. Apatheia is equanimity: the capacity to experience events without being enslaved to them.",quote:"\"The wise man is not without feeling. He is without irrational passion.\" — Stoic doctrine"},{term:"Ataraxia",latin:"ἀταραξία",cat:"passions",def:"Tranquillity. Freedom from mental disturbance. Shared as a goal with the Epicureans and Sceptics but reached by a different route: for the Stoics, tranquillity is the by-product of virtue, not its pursuit.",quote:"\"No man is crushed by misfortune unless he has first been deceived by prosperity.\" — Seneca"},{term:"Prosoche",latin:"προσοχή",cat:"disciplines",def:"Attention. The continuous watchfulness of the mind over its own judgements. Epictetus called this the cardinal practice. Without prosoche, philosophy is only words; with it, every moment becomes practice.",quote:"\"Attention must be continuous, or it is nothing.\" — Discourses IV.12"},{term:"Discipline of Assent",latin:"— συγκατάθεσις —",cat:"disciplines",def:"The first of the three disciplines. Watch every impression. Give assent only to what reason confirms. The training ground is your own mind: what you believe, what you judge, what you allow through the gate.",quote:"\"You are but an impression, and not at all the thing you appear to be.\" — Discourses II.18"},{term:"Discipline of Desire",latin:"— ὄρεξις —",cat:"disciplines",def:"The second of the three disciplines. Desire only what is in your power. Aversion only from what is in your power. This single reorientation eliminates the major source of human suffering.",quote:"\"Do not seek to have events happen as you wish, but wish them to happen as they do.\" — Enchiridion 8"},{term:"Discipline of Action",latin:"— ὁρμή —",cat:"disciplines",def:"The third of the three disciplines. Act with a reserve clause (hypexhairesis): I will do this, if nothing prevents it. Act according to your duties, with care for outcomes but without attachment to them.",quote:"\"It is fated that X should do Y; it is my role to do it.\" — Stoic formula"},{term:"Hypexhairesis",latin:"ὑπεξαίρεσις",cat:"disciplines",def:"The reserve clause. Every Stoic action is taken with the implicit qualifier: if nothing beyond my control intervenes. This preserves agency without breeding attachment to outcomes.",quote:"\"I will sail, if nothing prevents me.\" — Stoic formula via Epictetus"},{term:"Orexis",latin:"ὄρεξις",cat:"disciplines",def:"Desire or orientation toward something. Paired with ekklisis (aversion). The discipline of desire is the training of these two movements: desire only what is yours, avoid only what is yours to avoid.",quote:"\"Restrain desire. If you desire what does not belong to you, you will be unfortunate.\" — Enchiridion 2"},{term:"Hormê",latin:"ὁρμή",cat:"disciplines",def:"Impulse to action. The movement that begins conduct. Hormê must be disciplined by reason; when it is, action accords with virtue. When it is not, we act from passion and call it choice.",quote:"\"Begin action with this thought: am I about to do something fit for a human being?\" — Meditations VIII.2"},{term:"Adiaphora",latin:"ἀδιάφορα",cat:"indifferents",def:"Things neither good nor evil in themselves: health, wealth, reputation, pleasure, pain, even death. Divided into preferred (prokhegmena) and dispreferred (apoprokhegmena). The Stoic error is not in seeking health or wealth; it is in treating them as goods. Only virtue is good.",quote:"\"Seek not good from external things; seek it in yourselves.\" — Epictetus"},{term:"Prohegmena",latin:"προηγμένα",cat:"indifferents",def:"Preferred indifferents. Things not good in themselves but naturally to be selected: health, wealth, intelligence, good reputation. The Stoic may pursue them, provided virtue is not compromised to obtain them.",quote:"\"Health and wealth are not good, but one would be mad to refuse them without cause.\" — Stoic position"},{term:"Apoprohegmena",latin:"ἀποπροηγμένα",cat:"indifferents",def:"Dispreferred indifferents. Things not evil in themselves but naturally to be avoided: sickness, poverty, bad reputation, pain. The sage avoids them when possible, endures them when necessary, and is never defeated by them.",quote:"\"Sickness is an impediment to the body, but not to the will.\" — Enchiridion 9"},{term:"Sympatheia",latin:"συμπάθεια",cat:"cosmology",def:"The doctrine that all things in the universe are interconnected parts of a single whole. The philosophical basis for Stoic cosmopolitanism: all human beings are citizens of a single world-city.",quote:"\"What injures the hive injures the bee.\" — Meditations VI.54"},{term:"Pneuma",latin:"πνεῦμα",cat:"cosmology",def:"Breath or spirit. The active principle in Stoic physics. A mixture of fire and air that permeates all matter, giving it structure, life, and (in humans) reason. The logos expressed materially.",quote:"\"The whole cosmos is one living creature, with one substance and one soul.\" — Meditations IV.40"},{term:"Ekpyrosis",latin:"ἐκπύρωσις",cat:"cosmology",def:"The periodic conflagration. The Stoic doctrine that the universe periodically returns to pure fire and is reborn identically. Each cosmic cycle is the same cycle. Marcus Aurelius found consolation in this: what has been, will be again.",quote:"\"All things from eternity are of like forms and come round in a circle.\" — Meditations II.14"},{term:"Kosmopolis",latin:"κοσμόπολις",cat:"cosmology",def:"The world-city. The Stoic claim that all rational beings are fellow citizens under a single law: reason. Diogenes the Cynic first called himself a cosmopolitan; the Stoics made it a doctrine of cosmic citizenship.",quote:"\"My city and country as Antoninus is Rome; as a man, the universe.\" — Meditations VI.44"},{term:"Physis",latin:"φύσις",cat:"cosmology",def:"Nature. Not wilderness, but the rational order of things. To live according to nature is to live according to the logos that structures the cosmos and, in each person, structures the capacity for reason.",quote:"\"Live according to nature.\" — Zeno, the foundational Stoic imperative"},{term:"Heimarmene",latin:"εἱμαρμένη",cat:"cosmology",def:"Fate. The causal chain of the universe, identical with logos and providence. For the Stoic, fate is not a force that opposes us but the structure within which we act. Freedom is not escape from fate but alignment with it.",quote:"\"Lead me, Zeus, and you, O Destiny, wherever your decree has fixed my lot.\" — Cleanthes, Hymn to Zeus"},{term:"Askesis",latin:"ἄσκησις",cat:"practice",def:"Training or exercise. Philosophy is not theory but askesis. Epictetus compared the philosopher to an athlete: the doctrines are known; the work is daily practice under progressively greater difficulty.",quote:"\"Philosophy does not promise to secure anything external for man. Otherwise it would be admitting something that lies beyond its proper subject-matter.\" — Discourses I.15"},{term:"Melete",latin:"μελέτη",cat:"practice",def:"Rehearsal. The mental practice of anticipating difficulty. Before facing a hostile person, rehearse. Before public speaking, rehearse. Before death, rehearse. Meditatio malorum in Latin: premeditation of evils.",quote:"\"Rehearse death. He who has learned to die has unlearned to be a slave.\" — Seneca, Letter 26"},{term:"Premeditatio Malorum",latin:"praemeditatio malorum",cat:"practice",def:"Premeditation of evils. The deliberate contemplation of loss, failure, and death. Not to suffer in advance, but to strip these events of their power to shock. What we expect, we can meet with composure.",quote:"\"Rehearse them in your mind: exile, torture, war, shipwreck. All the terms of our human lot should be before our eyes.\" — Seneca, Letter 91"},{term:"Examen Vesperi",latin:"examen conscientiae",cat:"practice",def:"The evening examination. The Stoic practice (adopted by the Pythagoreans before them) of reviewing the day before sleep: where did I fall short, where did I do well, what would I do differently. Not self-punishment. Observation.",quote:"\"I make use of this privilege, daily pleading my case before myself. When the light is out and my wife has fallen silent, I examine the entire day and measure my deeds and words.\" — Seneca, On Anger III.36"},{term:"Memento Mori",latin:"memento mori",cat:"latin",def:"Remember you will die. The Latin phrase itself is not Stoic in origin: it comes from Roman triumphal tradition and later Christian contemplative practice. But the underlying exercise is thoroughly Stoic. Marcus Aurelius meditates on death on nearly every page, not out of morbidity but to clarify what matters today.",quote:"\"You could leave life right now. Let that determine what you do and say and think.\" — Meditations II.11"},{term:"Summum Bonum",latin:"summum bonum",cat:"latin",def:"The highest good. For the Stoics, this is virtue and virtue alone. For the Epicureans, tranquillity. For the Peripatetics, virtue plus external goods. The question of the summum bonum divides ancient philosophy; how you answer it determines how you live.",quote:"\"The highest good is to live in agreement with nature.\" — Zeno, in Latin transmission"},{term:"Virtus",latin:"virtus",cat:"latin",def:"The Latin translation of arete. In Roman use, virtus carried the additional weight of manly courage and public duty. Stoic virtus retains the Greek sense: excellence in reason, the only good.",quote:"\"Virtue is the sole good; vice the sole evil.\" — Cicero, De Finibus III"},{term:"Fatum",latin:"fatum",cat:"latin",def:"Fate, in Latin Stoic usage. Seneca distinguishes between fatum (the causal order) and fortuna (the apparent randomness of events as experienced). Both are outside our control; both are to be met with the same virtue.",quote:"\"Ducunt volentem fata, nolentem trahunt. Fate leads the willing, drags the unwilling.\" — Seneca, Letter 107"},{term:"Fortuna",latin:"fortuna",cat:"latin",def:"Fortune. The goddess of apparently random events, a figure Seneca addresses repeatedly. The Stoic treats fortune as an opponent to be trained against rather than feared. What she gives, she can take; therefore hold her gifts loosely.",quote:"\"I do not obey fortune; I submit to her.\" — Seneca, Letter 107"},{term:"Vivere Militare Est",latin:"vivere militare est",cat:"latin",def:"To live is to be a soldier. Seneca's formula: life is not a pleasure trip but a posting in difficult terrain. The Stoic does not complain about the campaign. The Stoic learns to soldier well.",quote:"\"Vivere, mi Lucili, militare est. To live, my Lucilius, is to serve as a soldier.\" — Seneca, Letter 96"},{term:"The Stoa",latin:"στοά ποικίλη",cat:"schools",def:"The Painted Porch in Athens where Zeno of Citium founded the school around 300 BCE. The name Stoic comes from this porch. Three main periods: Early Stoa (Zeno, Cleanthes, Chrysippus), Middle Stoa (Panaetius, Posidonius), Late Stoa (Seneca, Musonius, Epictetus, Marcus).",quote:"\"Zeno taught under the Stoa Poikile; hence his followers were called Stoics.\" — Diogenes Laertius VII"},{term:"The Cynics",latin:"κυνικοί",cat:"schools",def:"The Dog-philosophers. Founded by Antisthenes, exemplified by Diogenes of Sinope. The direct ancestors of Stoicism. Cynics held that virtue is the only good and practised radical asceticism. Zeno was a student of Crates the Cynic before founding the Stoa.",quote:"\"I am Diogenes the Dog. I fawn on those who give me anything, I bark at those who refuse, and I bite rogues.\" — Diogenes of Sinope"},{term:"The Academy",latin:"ἀκαδημία",cat:"schools",def:"Plato's school, which in its Middle and New phases turned sceptical. Stoic and Academic philosophers sparred for centuries. Cicero was Academic but presented Stoic views fairly. The schools shaped each other through opposition.",quote:"\"I follow the method of the Academy, which refuses assent to anything and seeks the probable.\" — Cicero"},{term:"The Garden",latin:"κῆπος",cat:"schools",def:"Epicurus's school, founded in Athens around the same time as the Stoa. The great rival of Stoicism. Epicureans sought ataraxia through withdrawal and moderate pleasure; Stoics through engagement and virtue. Seneca respected Epicurus; most Stoics did not.",quote:"\"There are in our school things well said even by our adversaries.\" — Seneca quoting Epicurus"},{term:"The Peripatos",latin:"περίπατος",cat:"schools",def:"Aristotle's school, named for the covered walkway where he lectured. Peripatetics held that virtue is the chief good but not the only good; health, wealth, and friends also contribute to eudaimonia. The Stoics rejected this: virtue alone suffices.",quote:"\"Aristotle held that external goods are necessary for happiness. The Stoics said: no.\" — Doxographic summary"},{term:"Daimon",latin:"δαίμων",cat:"people",def:"An inner divine guide. Socrates claimed a daimonion that warned him against wrong action. The Stoics internalised the idea: the hegemonikon, rightly cultivated, is the divine principle within. Eudaimonia literally means: having a good daimon.",quote:"\"The good or bad fortune of a man depends on the condition of his inner divinity.\" — Democritus, adopted by the Stoa"},{term:"Elenchus",latin:"ἔλεγχος",cat:"people",def:"The Socratic cross-examination. The method of questioning that reveals the contradictions in a person's beliefs. Epictetus used elenchus constantly in the Discourses. It is not sophistry; it is the dialectical pressure that separates opinion from knowledge.",quote:"\"The unexamined life is not worth living.\" — Socrates, Apology 38a"},{term:"Autarkeia",latin:"αὐτάρκεια",cat:"people",def:"Self-sufficiency. The Cynic and later Stoic ideal: the sage needs nothing external to flourish. Not isolation but independence from what fortune can give or take.",quote:"\"The greatest wealth is to live content with little, for there is never want where the mind is satisfied.\" — Lucretius, quoting the Cynic-Stoic tradition"},{term:"Parrhesia",latin:"παρρησία",cat:"people",def:"Frank speech. Speaking truth without regard to consequence. A practice Diogenes raised to performance art and the Stoics inherited as a duty. The philosopher does not flatter. The philosopher tells the truth, or stays silent.",quote:"\"I would rather be honest and hated than liked and false.\" — Cynic-Stoic position"}];
+
+var WISDOM_QUOTES=[{text:"Do not indulge in discussions about what a good person should be. Just be one.",author:"Marcus Aurelius",source:"Meditations X.16"},{text:"The impediment to action advances action. What stands in the way becomes the way.",author:"Marcus Aurelius",source:"Meditations V.20"},{text:"Begin at once to live, and count each separate day as a separate life.",author:"Seneca",source:"Letters to Lucilius, Letter 101"},{text:"While we are postponing, life speeds by.",author:"Seneca",source:"Letters to Lucilius, Letter 1"},{text:"Nusquam est qui ubique est — He who is everywhere is nowhere.",author:"Seneca",source:"Letters to Lucilius, Letter 2"},{text:"The greatest wealth is a poverty of desires.",author:"Seneca",source:"Letters to Lucilius"},{text:"It is not that I am brave. It is that I know what is mine and what is not.",author:"Musonius Rufus",source:"Lectures, Fragment"},{text:"Philosophy must be practised, not merely discussed. The man who reads all day and lives badly has learned nothing.",author:"Musonius Rufus",source:"Lecture 6"},{text:"Step out of my sunlight.",author:"Diogenes of Sinope",source:"Diogenes Laertius, Lives VI"},{text:"Crito, if this is the will of the gods, let it be so.",author:"Socrates",source:"Plato — Crito"},{text:"The unexamined life is not worth living.",author:"Socrates",source:"Apology, 38a"},{text:"How much more grievous are the consequences of anger than the causes of it.",author:"Marcus Aurelius",source:"Meditations XI.18"},{text:"Receive without pride, relinquish without struggle.",author:"Marcus Aurelius",source:"Meditations VIII.33"},{text:"Confine yourself to the present.",author:"Marcus Aurelius",source:"Meditations VIII.7"},{text:"Lucilius, claim time as your own — take it, hold it fast.",author:"Seneca",source:"Letters to Lucilius, Letter 1"},{text:"Philosophy promises above all: common sense, humanity, and fellowship.",author:"Seneca",source:"Letters to Lucilius, Letter 5"},{text:"No man is crushed by misfortune unless he has first been deceived by prosperity.",author:"Seneca",source:"On Consolation to Helvia"},{text:"What injures the hive injures the bee.",author:"Marcus Aurelius",source:"Meditations VI.54"},{text:"The object of life is not to be on the side of the majority, but to escape finding oneself in the ranks of the insane.",author:"Marcus Aurelius",source:"Meditations"},{text:"I have learned to be a philosopher while being a slave. What is your excuse?",author:"Epictetus",source:"Discourses I.1"},{text:"We do not choose our external circumstances, but we can always choose how we respond to them.",author:"Epictetus",source:"Discourses"}];
+
+var DISCIPLINES=[{id:"assent",icon:"◈",name:"The Discipline of Assent",greek:"συγκατάθεσις",romanised:"Sunkatáthesis",summary:"Guard the mind. Give assent only to what reason confirms.",governs:"The judgements you make about impressions before they become beliefs.",detail:"Every moment your senses and imagination deliver impressions (phantasiai). A colleague cuts you off in a meeting: the impression arrives pre-judged as \"he disrespected me.\" Epictetus says to stop at the impression. Strip the interpretation. Test it. Only then give or withhold assent. This is where philosophy does its slowest and most important work.",practice:"When an impression comes with a charge, say to it: \"You are but an impression, and not at all the thing you appear to be.\" Then ask: what did I actually perceive, and what did I add? The difference between the two is your freedom.",quote:"\"The philosopher's school is a surgery. You ought not to go out of it with pleasure, but with pain.\"",source:"Epictetus, Discourses III.23"},{id:"desire",icon:"◇",name:"The Discipline of Desire",greek:"ὄρεξις",romanised:"Órexis",summary:"Desire only what is in your power. Avert only from what is in your power.",governs:"What you want and what you reject. The orientation of your motivation.",detail:"Most human suffering comes from wanting what cannot be commanded and fearing what cannot be prevented. You desire your child's health, your work's success, another person's respect. None of these are yours. So you live in fear of loss and anxiety of possibility. Epictetus's remedy is radical: train desire to aim only where it cannot miss, and aversion to avoid only what it can actually avoid.",practice:"List what you most want. For each item, ask: is this fully in my power? If not, reform the desire. You cannot desire your child's safety without risking grief. You can desire to be the kind of parent who loves well, which is always available to you. Keep the second. Let go of the first.",quote:"\"Do not seek to have events happen as you wish, but wish them to happen as they do. Then your life will flow well.\"",source:"Enchiridion 8"},{id:"action",icon:"◆",name:"The Discipline of Action",greek:"ὁρμή",romanised:"Hormḗ",summary:"Act according to your duties, with reserve.",governs:"Conduct. What you do in the world and how you hold the outcome.",detail:"Given right judgements (assent) and right orientation (desire), action follows. But action introduces a new temptation: attachment to outcomes. You act to be kind, and you want to be seen as kind. You act to help, and you want the help to work. Epictetus introduces the reserve clause (hypexhairesis): I will do X, if nothing prevents it. This preserves full commitment to the act while releasing grip on the result.",practice:"Before any significant action, name the duty it serves (to family, to work, to justice, to yourself). Name also the outcome you hope for. Act for the duty. Release the outcome. If the outcome fails, the act was still right; if the outcome succeeds, you have not mistaken luck for virtue.",quote:"\"I must die. If at once, then I die. If after a little, I dine first; and when the hour comes, then I will die.\"",source:"Epictetus, Discourses I.1"}];
+
+var THREE_PARTS=[{id:"logic",icon:"∴",name:"Logic",greek:"λογική",romanised:"Logikē",summary:"The study of reasoning. How we know what we know.",detail:"For the Stoics, logic was not a narrow discipline but the full examination of how mind meets world: how impressions form, how propositions are evaluated, how arguments proceed, how language refers, how error creeps in. The Stoics developed propositional logic centuries before it would be rediscovered in the modern era. They held that bad ethics almost always trace back to bad logic: false beliefs, unexamined inferences, hidden assumptions.",role:"The wall of the garden. Logic is what keeps false judgements out and defends the structure of your reasoning when it is attacked.",relation:"Without logic, ethics becomes sentiment; physics becomes superstition. Logic is the condition of the other two parts.",quote:"\"The first and most necessary topic in philosophy is the practical application of principles; for example, that we must not lie. The second is that of demonstrations; for example, why we must not lie.\"",source:"Epictetus, Enchiridion 52"},{id:"physics",icon:"☉",name:"Physics",greek:"φυσική",romanised:"Physikē",summary:"The study of nature. What the universe is and how it works.",detail:"Stoic physics was far more than what moderns mean by physics. It included cosmology, theology, determinism, and the doctrine of logos: the claim that the universe is a single rational whole, permeated by a divine principle of reason, unfolding according to fate. Living according to nature, the foundational Stoic imperative, is not metaphor: it is the claim that your individual reason is a fragment of cosmic reason, and that flourishing consists in aligning the fragment with the whole.",role:"The soil of the garden. Physics is what grounds ethical life in something larger than personal preference. Your duties are not invented; they are discovered within the structure of reality.",relation:"Physics tells you what is. Ethics tells you how to live given what is. Without physics, ethics is arbitrary.",quote:"\"The universe is change; life is opinion.\"",source:"Marcus Aurelius, Meditations IV.3"},{id:"ethics",icon:"⚖",name:"Ethics",greek:"ἠθική",romanised:"Ēthikē",summary:"The study of conduct. How to live rightly.",detail:"Ethics is what Stoicism is remembered for, and what most modern readers mean when they speak of Stoicism. But for the Stoics themselves, ethics was the fruit of logic and physics, not a free-standing subject. The question \"how should I live?\" cannot be answered without first answering \"what is the world?\" and \"how do I reason about it?\" The cardinal virtues (wisdom, courage, justice, temperance) are the specific excellences that emerge when logic and physics are brought to bear on human life.",role:"The fruit of the garden. Ethics is what the philosophical life actually yields. The tree exists for the fruit, even though the fruit depends on the rest of the tree.",relation:"Ethics without logic produces fanatics. Ethics without physics produces moralists. Stoic ethics requires both: rigorous thought and metaphysical honesty.",quote:"\"Waste no more time arguing what a good man should be. Be one.\"",source:"Marcus Aurelius, Meditations X.16"}];
+
+var CONNECTIONS_PUZZLES=[{name:"The Pillars",desc:"Four cardinal virtues. Four primary passions. Three disciplines. Three indifferents. Sort them.",groups:[{name:"The Four Cardinal Virtues",color:"yellow",items:["Wisdom","Courage","Justice","Temperance"]},{name:"The Four Primary Passions (pathē)",color:"green",items:["Pleasure","Desire","Pain","Fear"]},{name:"The Three Disciplines",color:"blue",items:["Assent","Desire (orexis)","Action","Attention"]},{name:"The Indifferents",color:"purple",items:["Health","Wealth","Reputation","Death"]}]},{name:"Origins",desc:"Who said what, and where. Match each thinker to what they founded or exemplified.",groups:[{name:"Founders of the Stoa",color:"yellow",items:["Zeno of Citium","Cleanthes","Chrysippus","Aristo of Chios"]},{name:"Roman Stoics",color:"green",items:["Seneca","Musonius Rufus","Epictetus","Marcus Aurelius"]},{name:"Stoic Predecessors",color:"blue",items:["Socrates","Antisthenes","Diogenes of Sinope","Crates of Thebes"]},{name:"Rival Schools",color:"purple",items:["Epicurus","Plato","Aristotle","Pyrrho"]}]},{name:"Greek Vocabulary",desc:"Four Greek terms per category. Know the language; know the thought.",groups:[{name:"Virtue and Excellence",color:"yellow",items:["aretē","sophia","andreia","dikaiosynē"]},{name:"Emotion and its Absence",color:"green",items:["pathos","apatheia","ataraxia","eupatheia"]},{name:"The Self and Its Faculties",color:"blue",items:["prohairesis","hegemonikon","phantasia","synkatathesis"]},{name:"Cosmic Order",color:"purple",items:["logos","physis","sympatheia","heimarmenē"]}]},{name:"Texts and Teachings",desc:"Works, doctrines, and daily practices. Group them by kind.",groups:[{name:"Works of Epictetus",color:"yellow",items:["Discourses","Enchiridion","Fragments","Handbook"]},{name:"Core Doctrines",color:"green",items:["Dichotomy of Control","Reserve Clause","Discipline of Assent","View from Above"]},{name:"Daily Practices",color:"blue",items:["Evening Examination","Premeditatio Malorum","Voluntary Discomfort","Negative Visualisation"]},{name:"Latin Phrases",color:"purple",items:["Summum Bonum","Virtus","Fatum","Fortuna"]}]}];
+
+var STOIC_OR_NOT=[{text:"The best revenge is massive success.",real:false,author:"Modern self-help",verdict:"Not Stoic. The Stoic recognises no harm from an external event, and so has nothing to avenge."},{text:"Seek not that the things which happen should happen as you wish; but wish the things which happen to be as they are.",real:true,author:"Epictetus, Enchiridion Ch. 8",verdict:"Authentically Stoic. This is the direct statement of the dichotomy of control applied to desire."},{text:"You are enough. You have always been enough.",real:false,author:"Modern self-help",verdict:"Not Stoic. Epictetus would say: perhaps, but enough for what? Are you living as you should?"},{text:"Waste no more time arguing about what a good man should be. Be one.",real:true,author:"Marcus Aurelius, Meditations X.16",verdict:"Authentically Stoic and quintessentially Marcus. The demand for action over theory."},{text:"The universe is not outside of you. Look inside yourself; everything that you want, you already are.",real:false,author:"Rumi (often misattributed to Stoics)",verdict:"Not Stoic. The mystical framing is Sufi, not Stoic."},{text:"It is not the man who has little, but the man who craves more, that is poor.",real:true,author:"Seneca, Letters to Lucilius, Letter 2",verdict:"Authentically Stoic and quintessentially Seneca."},{text:"Everything happens for a reason. Trust the process.",real:false,author:"Modern self-help",verdict:"Partially Stoic in structure. The Stoics held events unfold according to logos. But trust the process is passive. The Stoic is never passive."},{text:"No man is free who is not master of himself.",real:true,author:"Epictetus, Discourses",verdict:"Authentically Stoic. The definition of freedom Epictetus returned to throughout his life."},{text:"Your vibe attracts your tribe.",real:false,author:"Modern self-help",verdict:"Not Stoic. The Stoic chooses companions based on virtue, not resonance."},{text:"Confine yourself to the present.",real:true,author:"Marcus Aurelius, Meditations VIII.7",verdict:"Authentically Stoic. The Stoic returns to the present because past and future lie outside our prohairesis."},{text:"You have to believe in yourself before anyone else will.",real:false,author:"Modern self-help",verdict:"Not Stoic. What matters is acting according to virtue regardless of what anyone believes about you."},{text:"The impediment to action advances action. What stands in the way becomes the way.",real:true,author:"Marcus Aurelius, Meditations V.20",verdict:"Authentically Stoic. Every obstacle is an opportunity to exercise virtue."},{text:"Live, laugh, love.",real:false,author:"Modern decor",verdict:"Not Stoic. The Stoic prescription is harder: live rightly, examine honestly, love what is yours to love."},{text:"Wealth consists not in having great possessions, but in having few wants.",real:true,author:"Epictetus, Fragments",verdict:"Authentically Stoic. Wealth reframed as a relation between desire and satisfaction, not between you and things."},{text:"Follow your heart.",real:false,author:"Modern self-help",verdict:"Not Stoic. The heart, untrained, follows passion. The Stoic follows reason. Sometimes the two agree. Often they do not."},{text:"Receive without pride, relinquish without struggle.",real:true,author:"Marcus Aurelius, Meditations VIII.33",verdict:"Authentically Stoic. The full Stoic posture toward externals in seven words."},{text:"What consumes your mind controls your life.",real:false,author:"Modern self-help (sometimes misattributed)",verdict:"Not Stoic in origin, though the principle aligns. The Stoics put it more precisely: your judgements are your life."},{text:"He who fears death will never do anything worthy of a living man.",real:true,author:"Seneca, Letters to Lucilius, Letter 77",verdict:"Authentically Stoic. Fear of death is, for Seneca, the root fear that deforms all others."},{text:"You only live once.",real:false,author:"Modern colloquial",verdict:"The Stoics would deny both clauses. Seneca: most people do not live at all; they merely exist. And for the Stoic, the question is not how many lives but how this one is used."},{text:"First say to yourself what you would be; and then do what you have to do.",real:true,author:"Epictetus, Discourses III.23",verdict:"Authentically Stoic. Character first, action second. The order matters."},{text:"Good vibes only.",real:false,author:"Modern social media",verdict:"Not Stoic. The Stoic welcomes all impressions (phantasiai) and examines each. To admit only pleasant ones is to refuse philosophy."},{text:"Hold fast, therefore, to this sound and wholesome rule of life: that you indulge the body only so far as is needful for good health.",real:true,author:"Seneca, Letters to Lucilius, Letter 8",verdict:"Authentically Stoic. Bodily care as instrumental, not indulgent. Health is a preferred indifferent."},{text:"Manifest your best life.",real:false,author:"Modern self-help",verdict:"Not Stoic. The idea that you can manifest externals through intention is incompatible with the dichotomy of control."},{text:"The whole future lies in uncertainty: live immediately.",real:true,author:"Seneca, On the Shortness of Life",verdict:"Authentically Stoic. The uncertainty of tomorrow is not a cause for anxiety but a call to inhabit today fully."},{text:"Everything in moderation, including moderation.",real:false,author:"Oscar Wilde (Epicurean in spirit)",verdict:"Not Stoic. The Stoic does not moderate virtue; virtue in all things is the demand. Wilde is witty. The Stoa is stern."}];
+
+
+</script>
+
+<!-- APP LOGIC -->
+<script>
+// ─── UTILITIES ───────────────────────────────────────────
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function escAttr(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function shuffled(n){var a=[];for(var i=0;i<n;i++)a.push(i);for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+function toggleTheme(){
+  var current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  var next = current === 'dark' ? 'light' : 'dark';
+  if (next === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  else document.documentElement.removeAttribute('data-theme');
+  try { localStorage.setItem('epi_theme', next); } catch(e){}
+}
+
+// ─── VIEW SWITCHING ──────────────────────────────────────
+function switchView(name, btn){
+  document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('show'); });
+  var el = document.getElementById('view-' + name);
+  if (el) el.classList.add('show');
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  window.scrollTo({top:0, behavior:'instant'});
+  try { localStorage.setItem('epi_last_view', name); } catch(e){}
+}
+function switchLib(name, btn){
+  document.querySelectorAll('.lib-section').forEach(function(s){ s.classList.remove('show'); });
+  var el = document.getElementById('lib-' + name);
+  if (el) el.classList.add('show');
+  document.querySelectorAll('.lib-nav button').forEach(function(t){ t.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  // When switching library sections, always exit any detail view
+  document.querySelectorAll('.detail').forEach(function(d){ d.classList.remove('show'); });
+  document.querySelectorAll('#practices-list, #paths-list').forEach(function(l){ l.style.display = ''; });
+  window.scrollTo({top:document.getElementById('view-library').offsetTop - 80, behavior:'smooth'});
+}
+function goToSchool(){
+  switchView('school', document.querySelector('[data-view="school"]'));
+}
+
+function openMobileMenu(){document.getElementById('mobileMenu').classList.add('open');document.body.style.overflow='hidden';}
+function closeMobileMenu(){document.getElementById('mobileMenu').classList.remove('open');document.body.style.overflow='';}
+
+// ─── PRACTICES ───────────────────────────────────────────
+function renderPracticesList(){
+  var h = '';
+  PRACTICES.forEach(function(p, i){
+    var n = (i+1 < 10 ? '0' : '') + (i+1);
+    h += '<div class="lib-row" onclick="showPracticeDetail(' + i + ')">'
+       + '<span class="lib-row-n">' + n + '</span>'
+       + '<span class="lib-row-t">' + escHtml(p.name)
+       + '<small>' + escHtml(p.what) + '</small></span>'
+       + '<span class="lib-row-meta">' + escHtml(p.duration) + '<span class="lib-row-cue">Try it →</span></span>'
+       + '</div>';
+  });
+  document.getElementById('practicesList').innerHTML = h;
+}
+function showPracticeDetail(i){
+  var p = PRACTICES[i];
+  var d = document.getElementById('practices-detail');
+  var list = document.getElementById('practices-list');
+  list.style.display = 'none';
+  var h = '<button class="detail-back" onclick="hidePracticeDetail()">← Back to practices</button>';
+  h += '<h3>' + escHtml(p.name) + '</h3>';
+  h += '<div class="detail-subs">' + escHtml(p.greek);
+  if (p.latin && p.latin !== p.greek) h += ' · <span>' + escHtml(p.latin) + '</span>';
+  h += ' · <span>' + escHtml(p.source) + '</span> · <span>' + escHtml(p.duration) + '</span></div>';
+  h += '<p class="detail-para">' + escHtml(p.what) + '</p>';
+  h += '<div class="detail-block"><div class="detail-block-lbl">How to practice</div>';
+  h += '<ol class="detail-steps">';
+  p.steps.forEach(function(s){ h += '<li>' + escHtml(s) + '</li>'; });
+  h += '</ol></div>';
+  h += '<div class="detail-block"><div class="detail-block-lbl">Why it matters</div>';
+  h += '<p>' + escHtml(p.why) + '</p></div>';
+  d.innerHTML = h;
+  d.classList.add('show');
+  window.scrollTo({top:document.getElementById('view-library').offsetTop - 20, behavior:'smooth'});
+}
+function hidePracticeDetail(){
+  document.getElementById('practices-detail').classList.remove('show');
+  document.getElementById('practices-list').style.display = '';
+  window.scrollTo({top:document.getElementById('view-library').offsetTop - 20, behavior:'smooth'});
+}
+
+// ─── READING PATHS ───────────────────────────────────────
+function renderPathsList(){
+  var h = '';
+  READING_PATHS.forEach(function(p, i){
+    var n = (i+1 < 10 ? '0' : '') + (i+1);
+    h += '<div class="lib-row" onclick="showPathDetail(' + i + ')">'
+       + '<span class="lib-row-n">' + n + '</span>'
+       + '<span class="lib-row-t">' + escHtml(p.name)
+       + '<small>' + escHtml(p.desc) + '</small></span>'
+       + '<span class="lib-row-meta">' + p.steps.length + ' steps</span>'
+       + '</div>';
+  });
+  document.getElementById('pathsList').innerHTML = h;
+}
+function showPathDetail(i){
+  var p = READING_PATHS[i];
+  var d = document.getElementById('paths-detail');
+  var list = document.getElementById('paths-list');
+  list.style.display = 'none';
+  var h = '<button class="detail-back" onclick="hidePathDetail()">← Back to paths</button>';
+  h += '<h3>' + escHtml(p.name) + '</h3>';
+  h += '<p class="detail-para">' + escHtml(p.desc) + '</p>';
+  h += '<div class="detail-block"><div class="detail-block-lbl">The path</div>';
+  h += '<ol class="detail-steps">';
+  p.steps.forEach(function(s){ h += '<li><strong style="color:var(--ink);font-weight:500;">' + escHtml(s.title) + '.</strong> ' + escHtml(s.text) + '</li>'; });
+  h += '</ol></div>';
+  d.innerHTML = h;
+  d.classList.add('show');
+  window.scrollTo({top:document.getElementById('view-library').offsetTop - 20, behavior:'smooth'});
+}
+function hidePathDetail(){
+  document.getElementById('paths-detail').classList.remove('show');
+  document.getElementById('paths-list').style.display = '';
+  window.scrollTo({top:document.getElementById('view-library').offsetTop - 20, behavior:'smooth'});
+}
+
+// ─── FRAMEWORK ───────────────────────────────────────────
+function renderFramework(){
+  var h = '';
+  // The Three Disciplines
+  h += '<h3 style="font-family:Cormorant Garamond,serif;font-weight:400;font-size:1.5rem;color:var(--ink);margin:1rem 0 .8rem;">The Three Disciplines</h3>';
+  DISCIPLINES.forEach(function(d){
+    h += '<div class="fwk-card emph">';
+    h += '<div class="fwk-card-head"><h3>' + escHtml(d.name) + '</h3><span class="fwk-greek">' + escHtml(d.greek) + ' · ' + escHtml(d.romanised) + '</span></div>';
+    h += '<div class="summary">' + escHtml(d.summary) + '</div>';
+    h += '<div class="detail-text"><strong style="color:var(--ink);font-weight:500;">Governs:</strong> ' + escHtml(d.governs) + '</div>';
+    h += '<div class="detail-text">' + escHtml(d.detail) + '</div>';
+    h += '<div class="practice-text"><strong>In practice:</strong> ' + escHtml(d.practice) + '</div>';
+    h += '<div class="fwk-quote">' + escHtml(d.quote) + '<cite>' + escHtml(d.source) + '</cite></div>';
+    h += '</div>';
+  });
+  // The Three Parts of Philosophy
+  h += '<h3 style="font-family:Cormorant Garamond,serif;font-weight:400;font-size:1.5rem;color:var(--ink);margin:2rem 0 .8rem;">The Three Parts of Philosophy</h3>';
+  THREE_PARTS.forEach(function(t){
+    h += '<div class="fwk-card">';
+    h += '<div class="fwk-card-head"><h3>' + escHtml(t.name) + '</h3><span class="fwk-greek">' + escHtml(t.greek) + ' · ' + escHtml(t.romanised) + '</span></div>';
+    h += '<div class="summary">' + escHtml(t.summary) + '</div>';
+    h += '<div class="detail-text">' + escHtml(t.detail) + '</div>';
+    h += '<div class="practice-text"><strong>Role:</strong> ' + escHtml(t.role) + '</div>';
+    h += '<div class="detail-text" style="color:var(--ink-pale);font-style:italic;">' + escHtml(t.relation) + '</div>';
+    h += '<div class="fwk-quote">' + escHtml(t.quote) + '<cite>' + escHtml(t.source) + '</cite></div>';
+    h += '</div>';
+  });
+  document.getElementById('frameworkBody').innerHTML = h;
+}
+
+// ─── GLOSSARY ────────────────────────────────────────────
+var glossState = { category: 'all', search: '' };
+function renderGlossaryCats(){
+  var cats = ['all'];
+  GLOSSARY.forEach(function(g){ if (cats.indexOf(g.cat) < 0) cats.push(g.cat); });
+  var h = '';
+  cats.forEach(function(c){
+    var label = c === 'all' ? 'All' : c.charAt(0).toUpperCase() + c.slice(1);
+    h += '<button class="gloss-cat' + (c === glossState.category ? ' active' : '') + '" onclick="setGlossCat(\'' + c + '\', this)">' + label + '</button>';
+  });
+  document.getElementById('glossCats').innerHTML = h;
+}
+function setGlossCat(c, btn){
+  glossState.category = c;
+  document.querySelectorAll('.gloss-cat').forEach(function(b){ b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  renderGlossary();
+}
+function filterGlossary(){
+  glossState.search = document.getElementById('glossSearch').value.toLowerCase();
+  renderGlossary();
+}
+function renderGlossary(){
+  var q = glossState.search;
+  var cat = glossState.category;
+  var h = '';
+  var count = 0;
+  GLOSSARY.forEach(function(g){
+    if (cat !== 'all' && g.cat !== cat) return;
+    if (q && g.term.toLowerCase().indexOf(q) < 0 && g.def.toLowerCase().indexOf(q) < 0 && (g.latin||'').toLowerCase().indexOf(q) < 0) return;
+    count++;
+    h += '<div class="gloss-item">';
+    h += '<div class="gloss-term">' + escHtml(g.term) + ' <em>' + escHtml(g.latin) + '</em></div>';
+    h += '<div class="gloss-meta">' + escHtml(g.cat) + '</div>';
+    h += '<div class="gloss-def">' + escHtml(g.def) + '</div>';
+    if (g.quote) h += '<div class="gloss-quote">' + escHtml(g.quote) + '</div>';
+    h += '</div>';
+  });
+  if (!count) h = '<div class="texts-coming">No terms match.</div>';
+  document.getElementById('glossaryList').innerHTML = h;
+}
+
+// ─── QUOTES ──────────────────────────────────────────────
+function renderQuotes(){
+  var h = '';
+  WISDOM_QUOTES.forEach(function(q){
+    h += '<div class="quote-card">';
+    h += '<blockquote>"' + escHtml(q.text) + '"</blockquote>';
+    h += '<cite>' + escHtml(q.author) + ' · ' + escHtml(q.source) + '</cite>';
+    h += '</div>';
+  });
+  document.getElementById('quotesList').innerHTML = h;
+}
+
+// ─── STOIC OR NOT GAME ───────────────────────────────────
+var stoicState = { idx: 0, score: 0, shuffled: null };
+function startStoicGame(){
+  stoicState.idx = 0;
+  stoicState.score = 0;
+  stoicState.shuffled = shuffled(STOIC_OR_NOT.length);
+  renderStoicQuestion();
+}
+function renderStoicQuestion(){
+  if (stoicState.idx >= STOIC_OR_NOT.length){
+    var pct = Math.round(stoicState.score / STOIC_OR_NOT.length * 100);
+    var verdict = pct >= 80 ? 'Epictetus nods. You know your philosophy.' : pct >= 60 ? 'Not bad. Keep reading the Discourses.' : 'Return to the texts.';
+    document.getElementById('stoicArea').innerHTML =
+      '<div class="stoic-score">' + stoicState.score + ' / ' + STOIC_OR_NOT.length +
+      '<small>' + pct + '% · ' + verdict + '</small></div>' +
+      '<div style="text-align:center;margin-top:1rem;"><button class="game-btn" onclick="startStoicGame()">Play again</button></div>';
+    return;
+  }
+  var q = STOIC_OR_NOT[stoicState.shuffled[stoicState.idx]];
+  var h = '<div class="stoic-quote-box">';
+  h += '<div class="stoic-q-num">Quote ' + (stoicState.idx + 1) + ' of ' + STOIC_OR_NOT.length + '</div>';
+  h += '<div class="stoic-q-txt">"' + escHtml(q.text) + '"</div>';
+  h += '<div class="stoic-q-choices">';
+  h += '<button class="stoic-q-btn" onclick="answerStoic(this, true)">Stoic</button>';
+  h += '<button class="stoic-q-btn" onclick="answerStoic(this, false)">Not Stoic</button>';
+  h += '</div>';
+  h += '<div class="stoic-feedback" id="stoicFb" style="display:none;"></div>';
+  h += '</div>';
+  h += '<div style="text-align:right;"><button class="game-btn" id="stoicNextBtn" style="display:none;" onclick="nextStoic()">Next →</button></div>';
+  document.getElementById('stoicArea').innerHTML = h;
+}
+function answerStoic(btn, answer){
+  var q = STOIC_OR_NOT[stoicState.shuffled[stoicState.idx]];
+  var correct = answer === q.real;
+  if (correct){ stoicState.score++; btn.classList.add('correct'); }
+  else { btn.classList.add('wrong'); }
+  document.querySelectorAll('.stoic-q-btn').forEach(function(b){ b.disabled = true; });
+  var fb = document.getElementById('stoicFb');
+  fb.innerHTML = (correct ? '✓ Correct. ' : '✗ Not quite. ') + escHtml(q.verdict) + '<span class="fb-attr">' + escHtml(q.author) + '</span>';
+  fb.style.display = 'block';
+  var nb = document.getElementById('stoicNextBtn');
+  if (nb) nb.style.display = 'inline-block';
+}
+function nextStoic(){ stoicState.idx++; renderStoicQuestion(); }
+
+// ─── CONNECTIONS GAME ────────────────────────────────────
+var connState = { puzzleIdx: 0, selected: [], solved: [], mistakes: 0, done: false, tiles: [] };
+function startConnections(){
+  connState.puzzleIdx = Math.floor(Math.random() * CONNECTIONS_PUZZLES.length);
+  connState.selected = [];
+  connState.solved = [];
+  connState.mistakes = 0;
+  connState.done = false;
+  var p = CONNECTIONS_PUZZLES[connState.puzzleIdx];
+  var all = [];
+  p.groups.forEach(function(g, gi){ g.items.forEach(function(it){ all.push({item: it, groupIdx: gi}); }); });
+  for (var i = all.length - 1; i > 0; i--){ var j = Math.floor(Math.random() * (i + 1)); var t = all[i]; all[i] = all[j]; all[j] = t; }
+  connState.tiles = all;
+  renderConnections();
+}
+function renderConnections(){
+  var p = CONNECTIONS_PUZZLES[connState.puzzleIdx];
+  var h = '<div class="conn-header"><div class="conn-name">' + escHtml(p.name) + '</div><div class="conn-desc">' + escHtml(p.desc) + '</div></div>';
+  if (connState.solved.length){
+    h += '<div class="conn-solved">';
+    connState.solved.forEach(function(gi){
+      var g = p.groups[gi];
+      h += '<div class="conn-solved-row conn-' + g.color + '"><div class="conn-solved-name">' + escHtml(g.name) + '</div><div class="conn-solved-items">' + g.items.map(escHtml).join(' · ') + '</div></div>';
+    });
+    h += '</div>';
+  }
+  if (!connState.done){
+    h += '<div class="conn-grid">';
+    connState.tiles.forEach(function(t, i){
+      if (connState.solved.indexOf(t.groupIdx) !== -1) return;
+      var isSel = connState.selected.indexOf(i) !== -1;
+      h += '<button class="conn-tile' + (isSel ? ' conn-selected' : '') + '" onclick="toggleConnTile(' + i + ')">' + escHtml(t.item) + '</button>';
+    });
+    h += '</div>';
+  }
+  var remaining = 4 - connState.mistakes;
+  h += '<div class="conn-status"><div class="conn-mistakes">Mistakes remaining:&nbsp;';
+  for (var i = 0; i < 4; i++){ h += '<span class="conn-dot' + (i < remaining ? ' conn-dot-on' : '') + '">·</span>'; }
+  h += '</div>';
+  if (!connState.done){
+    var canSubmit = connState.selected.length === 4;
+    h += '<div style="display:flex;gap:.5rem;">';
+    h += '<button class="conn-clear" onclick="clearConnSel()">Deselect</button>';
+    h += '<button class="conn-submit' + (canSubmit ? '' : ' conn-submit-off') + '" ' + (canSubmit ? '' : 'disabled') + ' onclick="submitConn()">Submit</button>';
+    h += '</div>';
+  }
+  h += '</div>';
+  h += '<div id="connFeedback" class="conn-feedback"></div>';
+  if (connState.done){
+    var won = connState.solved.length === 4;
+    h += '<div class="conn-end">' + (won ? 'All four groupings found. Epictetus nods.' : 'The answer is revealed below. Epictetus suggests: read more carefully next time.') + '</div>';
+    if (!won){
+      p.groups.forEach(function(g, gi){
+        if (connState.solved.indexOf(gi) === -1){
+          h += '<div class="conn-solved-row conn-' + g.color + ' conn-revealed"><div class="conn-solved-name">' + escHtml(g.name) + '</div><div class="conn-solved-items">' + g.items.map(escHtml).join(' · ') + '</div></div>';
+        }
+      });
+    }
+    h += '<div style="text-align:center;margin-top:1rem;"><button class="game-btn" onclick="startConnections()">New puzzle</button></div>';
+  }
+  document.getElementById('connArea').innerHTML = h;
+}
+function toggleConnTile(i){
+  if (connState.done) return;
+  var idx = connState.selected.indexOf(i);
+  if (idx !== -1){ connState.selected.splice(idx, 1); }
+  else if (connState.selected.length < 4){ connState.selected.push(i); }
+  renderConnections();
+}
+function clearConnSel(){ connState.selected = []; renderConnections(); }
+function submitConn(){
+  if (connState.selected.length !== 4 || connState.done) return;
+  var picks = connState.selected.map(function(i){ return connState.tiles[i]; });
+  var groupIdxs = picks.map(function(p){ return p.groupIdx; });
+  var allSame = groupIdxs.every(function(g){ return g === groupIdxs[0]; });
+  if (allSame){
+    connState.solved.push(groupIdxs[0]);
+    connState.selected = [];
+    if (connState.solved.length === 4){ connState.done = true; }
+    renderConnections();
+  } else {
+    var counts = {};
+    groupIdxs.forEach(function(g){ counts[g] = (counts[g] || 0) + 1; });
+    var maxCount = Math.max.apply(null, Object.values(counts));
+    connState.mistakes++;
+    if (connState.mistakes >= 4){
+      connState.done = true;
+      renderConnections();
+    } else {
+      renderConnections();
+      var newFb = document.getElementById('connFeedback');
+      if (newFb){
+        newFb.textContent = maxCount === 3 ? 'One away.' : 'Not quite.';
+        newFb.classList.add('conn-fb-show');
+        setTimeout(function(){ if (newFb) newFb.classList.remove('conn-fb-show'); }, 1800);
+      }
+    }
+  }
+}
+
+// ─── INIT ────────────────────────────────────────────────
+(function init(){
+  renderPracticesList();
+  renderPathsList();
+  renderFramework();
+  renderGlossaryCats();
+  renderGlossary();
+  renderQuotes();
+  // Restore last view
+  try {
+    var last = localStorage.getItem('epi_last_view');
+    if (last === 'games' || last === 'school'){
+      var btn = document.querySelector('[data-view="' + last + '"]');
+      if (btn) switchView(last, btn);
+    }
+  } catch(e){}
+})();
+</script>
+
+</body>
+</html>

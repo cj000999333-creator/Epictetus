@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400&family=Outfit:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --iv:#F8F4EE;--iv-dk:#EEE8DC;--iv-lt:#FDFAF6;
+  --ink:#1C1408;--ink-lt:#3C2C10;--ink-md:#5A4A2A;--ink-pale:#9A8A6A;
+  --bronze:#9A7020;--bronze-lt:#C9A84C;--bronze-dk:#6A4A10;
+  --bd:#D8D0BC;--bd-dk:#C0A870;--bd-lt:#E8E0CC;
+  --gold-bg:rgba(201,168,76,.06);
+}
+[data-theme="dark"]{
+  --iv:#14110A;--iv-dk:#1A150D;--iv-lt:#1E1A12;
+  --ink:#E8DCC0;--ink-lt:#C8B898;--ink-md:#9A8A6A;--ink-pale:#7A6A4A;
+  --bronze:#C9A84C;--bronze-lt:#E0C878;--bronze-dk:#9A7020;
+  --bd:#3C3220;--bd-dk:#5A4A30;--bd-lt:#2C2418;
+  --gold-bg:rgba(201,168,76,.10);
+}
+html,body{transition:background-color .25s ease,color .25s ease;}
+body{background:var(--iv);color:var(--ink);font-family:"Outfit",sans-serif;font-weight:300;min-height:100vh;}
+.test-bar{background:var(--ink);color:var(--iv);padding:.5rem 1.2rem;font-family:"DM Mono",monospace;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;gap:1rem;}
+.test-bar .controls{display:flex;gap:.6rem;align-items:center;}
+.test-bar button{background:transparent;border:1px solid rgba(248,244,238,.3);color:var(--iv);padding:.3rem .8rem;font-family:"DM Mono",monospace;font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;}
+.test-bar button:hover{border-color:var(--bronze-lt);color:var(--bronze-lt);}
+.test-bar select{background:transparent;border:1px solid rgba(248,244,238,.3);color:var(--iv);padding:.3rem .6rem;font-family:"DM Mono",monospace;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;}
+.test-bar select option{background:var(--ink);color:var(--iv);}
+
+.wrap{max-width:780px;margin:0 auto;padding:2rem 1.5rem 6rem;}
+h1{font-family:"Cormorant Garamond",serif;font-size:2rem;font-weight:300;color:var(--ink);margin-bottom:.4rem;}
+h1 em{color:var(--bronze);font-style:italic;}
+.subhead{font-family:"DM Mono",monospace;font-size:.6rem;letter-spacing:.18em;color:var(--ink-pale);text-transform:uppercase;margin-bottom:2rem;}
+
+.thread{display:flex;flex-direction:column;gap:1.4rem;margin-bottom:2rem;}
+.thread:empty::before{content:"Type below to begin. No caps. No paywall. Direct line to chat.js.";display:block;text-align:center;color:var(--ink-pale);font-style:italic;font-size:.95rem;padding:3rem 1rem;}
+.msg-user{background:var(--iv-lt);border:1px solid var(--bd);padding:1rem 1.3rem;font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.05rem;color:var(--ink-lt);line-height:1.55;}
+.msg-epi{background:var(--iv-dk);border:1px solid var(--bd-dk);border-left:3px solid var(--bronze);padding:1.2rem 1.5rem;color:var(--ink);line-height:1.75;font-size:1rem;font-weight:300;white-space:pre-wrap;}
+.msg-epi em{font-family:"DM Mono",monospace;font-size:.7rem;letter-spacing:.12em;color:var(--bronze-dk);font-style:normal;display:block;margin-top:.8rem;text-transform:uppercase;}
+.msg-meta{font-family:"DM Mono",monospace;font-size:.55rem;letter-spacing:.12em;color:var(--ink-pale);text-transform:uppercase;margin-top:.6rem;display:flex;gap:1rem;flex-wrap:wrap;}
+.msg-loading{color:var(--ink-pale);font-style:italic;font-size:.95rem;padding:1rem 1.5rem;}
+.msg-loading::after{content:'…';animation:dots 1.2s infinite;}
+@keyframes dots{0%{content:'.';}33%{content:'..';}66%{content:'...';}}
+
+.form-row{display:flex;flex-direction:column;gap:.7rem;background:var(--iv-lt);border:1px solid var(--bd);padding:1rem;position:sticky;bottom:1rem;}
+.form-row textarea{width:100%;background:transparent;border:none;font-family:"Outfit",sans-serif;font-size:1rem;color:var(--ink);outline:none;resize:vertical;min-height:60px;line-height:1.55;padding:.3rem;}
+.form-row textarea::placeholder{color:var(--ink-pale);font-style:italic;}
+.form-actions{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--bd);padding-top:.7rem;gap:1rem;}
+.toggles{display:flex;gap:.8rem;font-family:"DM Mono",monospace;font-size:.58rem;letter-spacing:.1em;color:var(--ink-md);text-transform:uppercase;flex-wrap:wrap;}
+.toggles label{cursor:pointer;display:flex;align-items:center;gap:.3rem;}
+.toggles input{cursor:pointer;}
+button.send{background:var(--ink);color:var(--iv);padding:.6rem 1.5rem;font-family:"DM Mono",monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;border:none;cursor:pointer;}
+button.send:hover{background:var(--bronze);}
+button.send:disabled{background:var(--ink-pale);cursor:not-allowed;}
+
+.suffix-area{margin:1.5rem 0;padding:1rem 1.2rem;background:var(--iv-lt);border:1px solid var(--bd);}
+.suffix-area-label{font-family:"DM Mono",monospace;font-size:.58rem;letter-spacing:.18em;color:var(--bronze);text-transform:uppercase;margin-bottom:.5rem;display:flex;justify-content:space-between;align-items:center;}
+.suffix-area-label button{background:transparent;border:none;color:var(--ink-md);font-family:"DM Mono",monospace;font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;}
+.suffix-area-label button:hover{color:var(--bronze);}
+.suffix-area textarea{width:100%;background:var(--iv);border:1px solid var(--bd-lt);padding:.5rem .7rem;font-family:"DM Mono",monospace;font-size:.78rem;color:var(--ink-lt);outline:none;resize:vertical;min-height:60px;line-height:1.6;}
+.suffix-area.collapsed textarea, .suffix-area.collapsed .suffix-hint{display:none;}
+.suffix-hint{margin-top:.4rem;font-family:"DM Mono",monospace;font-size:.5rem;letter-spacing:.1em;color:var(--ink-pale);text-transform:uppercase;}
+</style>
+<script>
+(function(){
+  try {
+    var saved = localStorage.getItem('epi_theme');
+    var theme;
+    if (saved === 'dark' || saved === 'light'){
+      theme = saved;
+    } else {
+      theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  } catch(e){}
+})();
+</script>
+</head>
+<body>
+
+<div class="test-bar">
+  <span>Test mode · No paywall · /test-nicopolis-89</span>
+  <div class="controls">
+    <button onclick="clearThread()">Clear</button>
+    <button onclick="exportLog()">Export log</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <h1>Test <em>Epictetus.</em></h1>
+  <div class="subhead">Direct line to chat.js · No 3-message cap · System suffix editable</div>
+
+  <div class="suffix-area" id="suffixArea">
+    <div class="suffix-area-label">
+      <span>System suffix (sent with each message)</span>
+      <button onclick="toggleSuffix()" id="suffixToggle">collapse</button>
+    </div>
+    <textarea id="suffixInput" rows="6" placeholder="Optional system suffix override...">FIRST-TOUCH RULES (these override general length guidance).
+
+This is the student's FIRST message. They have never spoken with you. Your job is to strike once, clearly, and end with one clear next move.
+
+LENGTH: 60-110 words. No more. Count.
+
+SHAPE:
+1. Open by correcting or redirecting what they said. Not by acknowledging it.
+2. State ONE idea — not two, not three. The one that cuts deepest.
+3. End with ONE specific instruction OR ONE specific question.
+
+FORBIDDEN in first-touch:
+- "It is natural to feel"
+- "That is understandable"
+- Any sentence that describes what Stoicism is
+- Lists of options or considerations
+- Phrases that begin "Remember that..."
+- "We all..." or "one must..."
+- More than one question mark
+- Welcoming language of any kind
+- Any mention of a website, app, school platform, or continuing the conversation elsewhere
+
+REQUIRED:
+- At least one direct second-person sentence ("You have...", "You are...")
+- One source citation at the end — Discourses N.N or Enchiridion N or Meditations N.N — as a standalone final line.</textarea>
+    <div class="suffix-hint">Empty = use chat.js default only · Edit to test variants · Saved in localStorage</div>
+  </div>
+
+  <div class="thread" id="thread"></div>
+
+  <form class="form-row" onsubmit="sendMessage(event)">
+    <textarea id="input" placeholder="Type a question..." rows="2" required></textarea>
+    <div class="form-actions">
+      <div class="toggles">
+        <label><input type="checkbox" id="multiTurn" checked> Multi-turn</label>
+        <span id="turnCount">0 turns</span>
+      </div>
+      <button type="submit" class="send" id="sendBtn">Send</button>
+    </div>
+  </form>
+</div>
+
+<script>
+var thread = [];
+var inFlight = false;
+var SUFFIX_KEY = 'test_suffix_v1';
+
+// Load saved suffix
+(function(){
+  try {
+    var saved = localStorage.getItem(SUFFIX_KEY);
+    if (saved !== null) document.getElementById('suffixInput').value = saved;
+  } catch(e){}
+  document.getElementById('suffixInput').addEventListener('input', function(){
+    try { localStorage.setItem(SUFFIX_KEY, this.value); } catch(e){}
+  });
+})();
+
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function toggleSuffix(){
+  var area = document.getElementById('suffixArea');
+  var btn = document.getElementById('suffixToggle');
+  area.classList.toggle('collapsed');
+  btn.textContent = area.classList.contains('collapsed') ? 'expand' : 'collapse';
+}
+
+function clearThread(){
+  thread = [];
+  document.getElementById('thread').innerHTML = '';
+  document.getElementById('turnCount').textContent = '0 turns';
+}
+
+function exportLog(){
+  if (!thread.length) { alert('Nothing to export.'); return; }
+  var lines = thread.map(function(m){
+    return (m.role === 'user' ? 'USER: ' : 'EPICTETUS: ') + m.content + '\n';
+  });
+  var blob = new Blob([lines.join('\n---\n\n')], {type: 'text/plain'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'epictetus-test-' + Date.now() + '.txt';
+  a.click();
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 100);
+}
+
+function sendMessage(e){
+  e.preventDefault();
+  if (inFlight) return;
+
+  var input = document.getElementById('input');
+  var question = input.value.trim();
+  if (!question) return;
+
+  var multiTurn = document.getElementById('multiTurn').checked;
+  var threadEl = document.getElementById('thread');
+
+  // Append user message
+  var userDiv = document.createElement('div');
+  userDiv.className = 'msg-user';
+  userDiv.textContent = question;
+  threadEl.appendChild(userDiv);
+
+  // Loading
+  var loading = document.createElement('div');
+  loading.className = 'msg-loading';
+  loading.id = 'loading-' + Date.now();
+  loading.textContent = 'Epictetus considers';
+  threadEl.appendChild(loading);
+
+  input.value = '';
+  inFlight = true;
+  document.getElementById('sendBtn').disabled = true;
+
+  // Build messages
+  var messages = multiTurn
+    ? thread.concat([{role: 'user', content: question}])
+    : [{role: 'user', content: question}];
+
+  var suffix = document.getElementById('suffixInput').value.trim();
+  var startTime = Date.now();
+
+  var body = { messages: messages };
+  if (suffix) body.systemSuffix = suffix;
+
+  fetch('/.netlify/functions/chat', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(body)
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    var elapsed = Date.now() - startTime;
+    if (loading.parentNode) loading.remove();
+    inFlight = false;
+    document.getElementById('sendBtn').disabled = false;
+
+    var reply = '';
+    if (data && data.content && data.content[0] && data.content[0].text){
+      reply = data.content[0].text;
+    } else if (data && data.error){
+      reply = '[ERROR] ' + JSON.stringify(data.error);
+    } else {
+      reply = '[NO RESPONSE] ' + JSON.stringify(data).substring(0, 200);
+    }
+
+    var epiDiv = document.createElement('div');
+    epiDiv.className = 'msg-epi';
+    var safe = escHtml(reply);
+    safe = safe.replace(/\n?\*?\s*((?:Discourses|Enchiridion|Meditations|Fragments)[^\n*]*?)\*?\s*$/, '<em>$1</em>');
+    epiDiv.innerHTML = safe;
+    threadEl.appendChild(epiDiv);
+
+    var meta = document.createElement('div');
+    meta.className = 'msg-meta';
+    var words = reply.split(/\s+/).filter(Boolean).length;
+    meta.innerHTML = '<span>' + words + ' words</span><span>' + elapsed + 'ms</span><span>turn ' + (multiTurn ? thread.length/2 + 1 : 1) + '</span>';
+    threadEl.appendChild(meta);
+
+    if (multiTurn){
+      thread.push({role: 'user', content: question});
+      thread.push({role: 'assistant', content: reply});
+      document.getElementById('turnCount').textContent = (thread.length / 2) + ' turns';
+    }
+
+    epiDiv.scrollIntoView({behavior:'smooth', block:'nearest'});
+  })
+  .catch(function(err){
+    if (loading.parentNode) loading.remove();
+    inFlight = false;
+    document.getElementById('sendBtn').disabled = false;
+    var errDiv = document.createElement('div');
+    errDiv.className = 'msg-epi';
+    errDiv.textContent = '[FETCH ERROR] ' + (err && err.message ? err.message : err);
+    threadEl.appendChild(errDiv);
+  });
+}
+
+// Cmd/Ctrl+Enter to send
+document.getElementById('input').addEventListener('keydown', function(e){
+  if ((e.metaKey || e.ctrlKey) && e.key === 'Enter'){
+    e.preventDefault();
+    document.querySelector('form').dispatchEvent(new Event('submit', {cancelable: true}));
+  }
+});
+</script>
+
+</body>
+</html>
