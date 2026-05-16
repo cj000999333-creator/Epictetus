@@ -135,7 +135,6 @@
   <script type="module">
     import { supabase, redirectIfAuth } from "/supabase-client.js";
 
-    // If already logged in, send them away
     redirectIfAuth();
 
     const form = document.getElementById("login-form");
