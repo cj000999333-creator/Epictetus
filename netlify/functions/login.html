@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — Epictetus</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      background: #1a1815;
+      color: #d4cfc4;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .container {
+      width: 100%;
+      max-width: 420px;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: normal;
+      color: #b8a878;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+    .subtitle {
+      font-size: 14px;
+      color: #8a7d68;
+      margin-bottom: 32px;
+      font-style: italic;
+    }
+    form {
+      background: #232019;
+      border: 1px solid #3a352c;
+      padding: 28px;
+      border-radius: 4px;
+    }
+    label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #8a7d68;
+      margin-bottom: 6px;
+      margin-top: 14px;
+    }
+    label:first-child { margin-top: 0; }
+    input[type="email"], input[type="password"] {
+      width: 100%;
+      background: #15130f;
+      color: #d4cfc4;
+      border: 1px solid #3a352c;
+      padding: 12px;
+      font-family: Georgia, serif;
+      font-size: 15px;
+      border-radius: 3px;
+    }
+    input:focus { outline: none; border-color: #8a7d68; }
+    button {
+      width: 100%;
+      background: #b8a878;
+      color: #1a1815;
+      border: none;
+      padding: 14px;
+      font-family: Georgia, serif;
+      font-size: 15px;
+      cursor: pointer;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+      margin-top: 24px;
+    }
+    button:hover { background: #c4b485; }
+    button:disabled { opacity: 0.4; cursor: not-allowed; }
+    .footer-link {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 14px;
+      color: #8a7d68;
+    }
+    .footer-link a {
+      color: #b8a878;
+      text-decoration: none;
+    }
+    .footer-link a:hover { text-decoration: underline; }
+    .error {
+      background: #3d1f1f;
+      border: 1px solid #6d3838;
+      color: #d4a8a8;
+      padding: 12px;
+      border-radius: 3px;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .forgot {
+      text-align: right;
+      margin-top: 6px;
+      font-size: 12px;
+    }
+    .forgot a {
+      color: #8a7d68;
+      text-decoration: none;
+    }
+    .forgot a:hover { color: #b8a878; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Return</h1>
+    <p class="subtitle">The work continues where you left it.</p>
+
+    <form id="login-form">
+      <div id="error-box"></div>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" required autocomplete="email" />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" required autocomplete="current-password" />
+      <div class="forgot">
+        <a href="#" id="forgot-link">Forgot password?</a>
+      </div>
+
+      <button type="submit" id="submit-btn">Sign in</button>
+    </form>
+
+    <p class="footer-link">
+      No account yet? <a href="/signup.html">Create one</a>
+    </p>
+  </div>
+
+  <script type="module">
+    import { supabase, redirectIfAuth } from "/supabase-client.js";
+
+    // If already logged in, send them away
+    redirectIfAuth();
+
+    const form = document.getElementById("login-form");
+    const emailEl = document.getElementById("email");
+    const passwordEl = document.getElementById("password");
+    const submitBtn = document.getElementById("submit-btn");
+    const errorBox = document.getElementById("error-box");
+    const forgotLink = document.getElementById("forgot-link");
+
+    function showError(msg) {
+      errorBox.innerHTML = `<div class="error">${msg}</div>`;
+    }
+    function clearError() {
+      errorBox.innerHTML = "";
+    }
+    function showInfo(msg) {
+      errorBox.innerHTML = `<div class="error" style="background:#1f2d3d;border-color:#3a5a7a;color:#a8c4d4;">${msg}</div>`;
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      clearError();
+
+      const email = emailEl.value.trim();
+      const password = passwordEl.value;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Signing in...";
+
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        showError(error.message);
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Sign in";
+        return;
+      }
+
+      window.location.href = "/welcome.html";
+    });
+
+    forgotLink.addEventListener("click", async (e) => {
+      e.preventDefault();
+      const email = emailEl.value.trim();
+      if (!email) {
+        showError("Enter your email above first, then click forgot password.");
+        return;
+      }
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin + "/login.html",
+      });
+      if (error) {
+        showError(error.message);
+        return;
+      }
+      showInfo("If an account exists for that email, a reset link is on its way.");
+    });
+  </script>
+</body>
+</html>
