@@ -863,7 +863,7 @@ function askEpictetus(e){
 
   var systemSuffix = 'FIRST-TOUCH RULES (these override general length guidance).\n\nThis is the student\u2019s FIRST message. They have never spoken with you. Your job is to strike once, clearly, and end with one clear next move.\n\nLENGTH: 60-110 words. No more. Count.\n\nSHAPE:\n1. Open by correcting or redirecting what they said. Not by acknowledging it.\n2. State ONE idea \u2014 not two, not three. The one that cuts deepest.\n3. End with ONE specific instruction OR ONE specific question.\n\nFORBIDDEN in first-touch:\n- "It is natural to feel"\n- "That is understandable"\n- Any sentence that describes what Stoicism is\n- Lists of options or considerations\n- Phrases that begin "Remember that..."\n- "We all..." or "one must..."\n- More than one question mark\n- Welcoming language of any kind\n- Any mention of a website, app, school platform, or continuing the conversation elsewhere\n\nREQUIRED:\n- At least one direct second-person sentence ("You have...", "You are...")\n- One source citation at the end \u2014 Discourses N.N or Enchiridion N or Meditations N.N \u2014 as a standalone final line.';
 
-  fetch('/.netlify/functions/chat', {
+  fetch('/api/chat', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
     body: JSON.stringify({messages: tryHistory, systemSuffix: systemSuffix})

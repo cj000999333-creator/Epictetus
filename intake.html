@@ -262,7 +262,7 @@
       sendBtn.textContent = "Sending...";
 
       try {
-        const res = await fetch("/.netlify/functions/intake-chat", {
+        const res = await fetch("/api/intake-chat", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

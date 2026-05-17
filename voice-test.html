@@ -359,7 +359,7 @@ Often end with unfinished work. Send the student to live, not to read more.
       sendBtn.textContent = "Sending...";
 
       try {
-        const res = await fetch("/.netlify/functions/voice-test", {
+        const res = await fetch("/api/voice-test", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

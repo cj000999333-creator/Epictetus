@@ -226,7 +226,7 @@ function sendMessage(e){
   var body = { messages: messages };
   if (suffix) body.systemSuffix = suffix;
 
-  fetch('/.netlify/functions/chat', {
+  fetch('/./api/chat/chat', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
     body: JSON.stringify(body)

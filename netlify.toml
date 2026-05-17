@@ -1,6 +1,15 @@
 [build]
   functions = "netlify/functions"
+  publish = "."
 
+# Redirect /api/* paths to Netlify Functions
+# This makes our Vercel-style /api/foo URLs work on Netlify too
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# 404 fallback for any unmatched route
 [[redirects]]
   from = "/*"
   to = "/404.html"
