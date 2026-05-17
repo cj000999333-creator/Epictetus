@@ -69,6 +69,7 @@
       font-style: italic;
     }
     .primary-btn {
+      display: inline-block;
       background: #b8a878;
       color: #1a1815;
       border: none;
@@ -79,6 +80,7 @@
       border-radius: 3px;
       letter-spacing: 0.5px;
       margin-top: 16px;
+      text-decoration: none;
     }
     .primary-btn:hover { background: #c4b485; }
     .primary-btn:disabled { opacity: 0.4; cursor: not-allowed; }
@@ -99,19 +101,47 @@
 
     const user = await requireAuth();
     if (!user) {
-      // requireAuth already redirected to /login.html
+      // requireAuth already redirected
     } else {
       document.getElementById("user-email").textContent = user.email;
 
+      const { data: profile, error } = await supabase
+        .from("users")
+        .select("intake_completed, name, has_access")
+        .eq("id", user.id)
+        .single();
+
       const content = document.getElementById("content");
-      content.innerHTML = `
-        <h1>You have come to the door.</h1>
-        <p>Good. Few who say they want a teacher actually arrive.</p>
-        <p>What waits next is the Intake — the first session, where I learn who has come. It is free. It happens once.</p>
-        <p>After the Intake, you decide: enter the school, or walk away. Both are answers. Only one is yours to make.</p>
-        <p class="aside">The Intake will open shortly. The work is still being prepared.</p>
-        <button class="primary-btn" disabled>Begin the Intake (coming soon)</button>
-      `;
+
+      if (error) {
+        content.innerHTML = `
+          <h1>Something is wrong.</h1>
+          <p>The school cannot read your record. Try again in a moment.</p>
+          <p class="aside">${error.message}</p>
+        `;
+      } else if (!profile.intake_completed) {
+        content.innerHTML = `
+          <h1>You have come to the door.</h1>
+          <p>Good. Few who say they want a teacher actually arrive.</p>
+          <p>What waits next is the Intake — the first session, where I learn who has come. It is free. It happens once.</p>
+          <p>After the Intake, you decide: enter the school, or walk away. Both are answers. Only one is yours to make.</p>
+          <a href="/intake.html" class="primary-btn">Begin the Intake</a>
+        `;
+      } else if (!profile.has_access) {
+        content.innerHTML = `
+          <h1>${profile.name ? profile.name + ", t" : "T"}he Intake is finished.</h1>
+          <p>I have taken your measure. The school is open to those who pay the price of crossing the threshold.</p>
+          <p class="aside">Payment is coming. For now, you wait.</p>
+          <button class="primary-btn" disabled>Enter the school (coming soon)</button>
+        `;
+      } else {
+        content.innerHTML = `
+          <h1>Return, ${profile.name || "student"}.</h1>
+          <p>The work continues where you left it.</p>
+          <p class="aside">The session room is being prepared.</p>
+          <button class="primary-btn" disabled>Begin Session (coming soon)</button>
+        `;
+      }
 
       document.getElementById("signout-btn").addEventListener("click", async () => {
         await signOut();

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Intake — Epictetus</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      background: #1a1815;
+      color: #d4cfc4;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      border-bottom: 1px solid #2a261f;
+    }
+    .brand {
+      font-size: 14px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #8a7d68;
+    }
+    .signout-btn {
+      background: transparent;
+      color: #6a5f4e;
+      border: 1px solid #3a352c;
+      padding: 6px 12px;
+      font-family: Georgia, serif;
+      font-size: 12px;
+      cursor: pointer;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+    }
+    .signout-btn:hover { color: #d4cfc4; border-color: #8a7d68; }
+
+    .container {
+      max-width: 720px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 32px 24px 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .conversation {
+      flex: 1;
+      overflow-y: auto;
+      margin-bottom: 24px;
+      min-height: 300px;
+    }
+
+    .turn { margin-bottom: 28px; }
+    .turn-label {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #6a5f4e;
+      margin-bottom: 8px;
+    }
+    .turn-content {
+      white-space: pre-wrap;
+      line-height: 1.7;
+      font-size: 16px;
+    }
+    .turn.user .turn-content { color: #a89e8a; }
+    .turn.assistant .turn-content { color: #d4cfc4; }
+
+    .loading {
+      color: #6a5f4e;
+      font-style: italic;
+      padding: 24px 0;
+    }
+
+    .input-area {
+      border-top: 1px solid #2a261f;
+      padding-top: 20px;
+    }
+    textarea {
+      width: 100%;
+      background: #15130f;
+      color: #d4cfc4;
+      border: 1px solid #3a352c;
+      padding: 12px;
+      font-family: Georgia, serif;
+      font-size: 15px;
+      border-radius: 3px;
+      resize: vertical;
+      min-height: 80px;
+      line-height: 1.6;
+    }
+    textarea:focus { outline: none; border-color: #8a7d68; }
+
+    .controls {
+      margin-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .hint {
+      font-size: 11px;
+      color: #6a5f4e;
+      letter-spacing: 0.5px;
+    }
+    button.send {
+      background: #b8a878;
+      color: #1a1815;
+      border: none;
+      padding: 10px 22px;
+      font-family: Georgia, serif;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+    }
+    button.send:hover { background: #c4b485; }
+    button.send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .error {
+      background: #3d1f1f;
+      border: 1px solid #6d3838;
+      color: #d4a8a8;
+      padding: 12px;
+      border-radius: 3px;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .completion {
+      background: #232019;
+      border: 1px solid #3a352c;
+      border-left: 3px solid #b8a878;
+      padding: 24px;
+      border-radius: 3px;
+      margin-top: 32px;
+    }
+    .completion h2 {
+      color: #b8a878;
+      font-size: 20px;
+      font-weight: normal;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+    .completion p { font-size: 15px; line-height: 1.6; margin-bottom: 12px; }
+    .completion a {
+      display: inline-block;
+      background: #b8a878;
+      color: #1a1815;
+      padding: 10px 22px;
+      text-decoration: none;
+      border-radius: 3px;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      margin-top: 8px;
+    }
+    .completion a:hover { background: #c4b485; }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <span class="brand">The Intake</span>
+    <button class="signout-btn" id="signout-btn">Sign out</button>
+  </div>
+
+  <div class="container">
+    <div id="conversation" class="conversation">
+      <div class="loading">Approaching the door...</div>
+    </div>
+
+    <div id="error-box"></div>
+
+    <div class="input-area" id="input-area">
+      <textarea id="user-input" placeholder="Speak."></textarea>
+      <div class="controls">
+        <span class="hint">Cmd/Ctrl + Enter to send</span>
+        <button class="send" id="send-btn">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { supabase, requireAuth, signOut } from "/supabase-client.js";
+
+    const user = await requireAuth();
+    if (!user) {
+      // requireAuth redirected to login
+    } else {
+      const { data: profile } = await supabase
+        .from("users")
+        .select("intake_completed")
+        .eq("id", user.id)
+        .single();
+
+      if (profile?.intake_completed) {
+        window.location.href = "/welcome.html";
+      } else {
+        startIntake();
+      }
+    }
+
+    let conversation = [];
+
+    const conversationEl = document.getElementById("conversation");
+    const userInputEl = document.getElementById("user-input");
+    const sendBtn = document.getElementById("send-btn");
+    const errorBox = document.getElementById("error-box");
+    const inputArea = document.getElementById("input-area");
+
+    document.getElementById("signout-btn").addEventListener("click", async () => {
+      await signOut();
+    });
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function renderConversation() {
+      if (conversation.length === 0) {
+        conversationEl.innerHTML = '<div class="loading">Approaching the door...</div>';
+        return;
+      }
+      conversationEl.innerHTML = conversation
+        .map(turn => `
+          <div class="turn ${turn.role}">
+            <div class="turn-label">${turn.role === "user" ? "You" : "Epictetus"}</div>
+            <div class="turn-content">${escapeHtml(turn.content)}</div>
+          </div>
+        `).join("");
+      conversationEl.scrollTop = conversationEl.scrollHeight;
+    }
+
+    function showError(msg) {
+      errorBox.innerHTML = `<div class="error">${escapeHtml(msg)}</div>`;
+    }
+    function clearError() {
+      errorBox.innerHTML = "";
+    }
+
+    function showCompletion() {
+      inputArea.style.display = "none";
+      const completionHtml = `
+        <div class="completion">
+          <h2>The Intake is finished.</h2>
+          <p>You have spoken. I have taken your measure.</p>
+          <p>The school waits.</p>
+          <a href="/welcome.html">Continue</a>
+        </div>
+      `;
+      conversationEl.insertAdjacentHTML("beforeend", completionHtml);
+      conversationEl.scrollTop = conversationEl.scrollHeight;
+    }
+
+    async function sendMessage(userMessage) {
+      clearError();
+
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        window.location.href = "/login.html";
+        return;
+      }
+
+      if (userMessage) {
+        conversation.push({ role: "user", content: userMessage });
+      }
+      conversation.push({ role: "assistant", content: "..." });
+      renderConversation();
+
+      sendBtn.disabled = true;
+      sendBtn.textContent = "Sending...";
+
+      try {
+        const res = await fetch("/.netlify/functions/intake-chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${session.access_token}`,
+          },
+          body: JSON.stringify({
+            userMessage: userMessage || null,
+            conversation: conversation.slice(0, userMessage ? -2 : -1),
+          }),
+        });
+
+        const data = await res.json();
+
+        conversation.pop();
+
+        if (!res.ok) {
+          if (userMessage) conversation.pop();
+          showError(`${data.error || "Unknown error"}${data.details ? ": " + data.details : ""}`);
+          renderConversation();
+          if (userMessage) userInputEl.value = userMessage;
+          return;
+        }
+
+        conversation.push({ role: "assistant", content: data.reply });
+        renderConversation();
+
+        if (data.intakeComplete) {
+          showCompletion();
+        }
+      } catch (err) {
+        conversation.pop();
+        if (userMessage) conversation.pop();
+        showError("Network error: " + err.message);
+        renderConversation();
+        if (userMessage) userInputEl.value = userMessage;
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.textContent = "Send";
+      }
+    }
+
+    async function startIntake() {
+      conversation = [];
+      await sendMessage(null);
+    }
+
+    sendBtn.addEventListener("click", () => {
+      const text = userInputEl.value.trim();
+      if (!text) return;
+      userInputEl.value = "";
+      sendMessage(text);
+    });
+
+    userInputEl.addEventListener("keydown", e => {
+      if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        sendBtn.click();
+      }
+    });
+  </script>
+</body>
+</html>
