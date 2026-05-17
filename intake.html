@@ -188,23 +188,7 @@
   <script type="module">
     import { supabase, requireAuth, signOut } from "/supabase-client.js";
 
-    const user = await requireAuth();
-    if (!user) {
-      // requireAuth redirected to login
-    } else {
-      const { data: profile } = await supabase
-        .from("users")
-        .select("intake_completed")
-        .eq("id", user.id)
-        .single();
-
-      if (profile?.intake_completed) {
-        window.location.href = "/welcome.html";
-      } else {
-        startIntake();
-      }
-    }
-
+    // State and element refs declared FIRST
     let conversation = [];
 
     const conversationEl = document.getElementById("conversation");
@@ -338,6 +322,22 @@
         sendBtn.click();
       }
     });
+
+    // Auth check runs LAST, after all functions are defined
+    const user = await requireAuth();
+    if (user) {
+      const { data: profile } = await supabase
+        .from("users")
+        .select("intake_completed")
+        .eq("id", user.id)
+        .single();
+
+      if (profile?.intake_completed) {
+        window.location.href = "/welcome.html";
+      } else {
+        startIntake();
+      }
+    }
   </script>
 </body>
 </html>
