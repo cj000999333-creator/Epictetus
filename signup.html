@@ -49,7 +49,7 @@
       margin-top: 14px;
     }
     label:first-child { margin-top: 0; }
-    input[type="email"], input[type="password"] {
+    input[type="email"], input[type="password"], input[type="text"] {
       width: 100%;
       background: #15130f;
       color: #d4cfc4;
@@ -75,6 +75,15 @@
     }
     button:hover { background: #c4b485; }
     button:disabled { opacity: 0.4; cursor: not-allowed; }
+    button.secondary {
+      background: transparent;
+      color: #8a7d68;
+      border: 1px solid #3a352c;
+      margin-top: 8px;
+      padding: 10px;
+      font-size: 13px;
+    }
+    button.secondary:hover { color: #d4cfc4; border-color: #8a7d68; background: transparent; }
     .footer-link {
       margin-top: 20px;
       text-align: center;
@@ -100,6 +109,29 @@
       color: #6a5f4e;
       margin-top: 4px;
     }
+    .stoic-hint {
+      font-size: 12px;
+      color: #8a7d68;
+      margin-top: 8px;
+      font-style: italic;
+      min-height: 16px;
+    }
+    .stoic-hint .word {
+      color: #b8a878;
+      font-style: normal;
+      letter-spacing: 0.3px;
+    }
+    .show-pw {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      font-size: 12px;
+      color: #6a5f4e;
+      cursor: pointer;
+      user-select: none;
+    }
+    .show-pw input { width: auto; margin: 0; }
   </style>
 </head>
 <body>
@@ -117,6 +149,14 @@
       <input type="password" id="password" required autocomplete="new-password" minlength="8" />
       <div class="hint">At least 8 characters.</div>
 
+      <button type="button" class="secondary" id="generate-btn">Suggest a Stoic password</button>
+      <div class="stoic-hint" id="stoic-hint" title=""></div>
+
+      <label class="show-pw">
+        <input type="checkbox" id="show-pw-toggle" />
+        Show password
+      </label>
+
       <button type="submit" id="submit-btn">Create account</button>
     </form>
 
@@ -127,8 +167,8 @@
 
   <script type="module">
     import { supabase, redirectIfAuth } from "/supabase-client.js";
+    import { generateStoicPassword } from "/stoic-words.js";
 
-    // If user already logged in, send them away
     redirectIfAuth();
 
     const form = document.getElementById("signup-form");
@@ -136,6 +176,9 @@
     const passwordEl = document.getElementById("password");
     const submitBtn = document.getElementById("submit-btn");
     const errorBox = document.getElementById("error-box");
+    const generateBtn = document.getElementById("generate-btn");
+    const stoicHint = document.getElementById("stoic-hint");
+    const showPwToggle = document.getElementById("show-pw-toggle");
 
     function showError(msg) {
       errorBox.innerHTML = `<div class="error">${msg}</div>`;
@@ -143,6 +186,17 @@
     function clearError() {
       errorBox.innerHTML = "";
     }
+
+    generateBtn.addEventListener("click", () => {
+      const { password, word, meaning } = generateStoicPassword();
+      passwordEl.value = password;
+      stoicHint.innerHTML = `<span class="word">${word}</span> — ${meaning}`;
+      stoicHint.title = meaning;
+    });
+
+    showPwToggle.addEventListener("change", () => {
+      passwordEl.type = showPwToggle.checked ? "text" : "password";
+    });
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -172,15 +226,12 @@
       }
 
       if (!data.session) {
-        // Email confirmation required (depends on Supabase settings)
-        // For v1, we expect this to be disabled, so this branch shouldn't fire
         showError("Account created. Check your email to confirm before signing in.");
         submitBtn.disabled = false;
         submitBtn.textContent = "Create account";
         return;
       }
 
-      // Logged in — redirect to welcome
       window.location.href = "/welcome.html";
     });
   </script>
