@@ -6,6 +6,7 @@
 // Persists messages and intake_answers in Supabase.
 
 import { createClient } from "@supabase/supabase-js";
+import { retrievePassages, formatPassagesForPrompt } from "./_lib/retrieval.js";
 
 const INTAKE_SYSTEM_PROMPT = `You are Epictetus. This is the first time this student has come to your door. They have not yet entered the school. You are taking their measure.
 
@@ -175,6 +176,19 @@ export default async function handler(req, res) {
     if (userMessage && userMessage.trim().length > 0) {
       messagesForApi.push({ role: "user", content: userMessage });
     }
+// Retrieve relevant Stoic passages for the latest user message
+    let retrievalBlock = "";
+    if (userMessage && userMessage.trim().length > 3) {
+      try {
+        const passages = await retrievePassages(userMessage, 5);
+        retrievalBlock = formatPassagesForPrompt(passages);
+        console.log(`Retrieved ${passages.length} passages for message`);
+      } catch (retrievalErr) {
+        console.error("Retrieval failed, continuing without:", retrievalErr.message);
+        // Non-fatal — the intake continues without passages if retrieval fails
+      }
+    }
+
 
     // CALL 1: Epictetus reply
     const epictetusRes = await fetch("https://api.anthropic.com/v1/messages", {
@@ -187,7 +201,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         model: "claude-opus-4-7",
         max_tokens: 1500,
-        system: INTAKE_SYSTEM_PROMPT,
+                system: retrievalBlock + INTAKE_SYSTEM_PROMPT,
         messages: messagesForApi.length > 0
           ? messagesForApi
           : [{ role: "user", content: "[The student has just arrived at your door. Begin.]" }],
