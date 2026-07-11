@@ -1,3 +1,5 @@
+import { retrievePassages, formatPassagesForPrompt } from "./_lib/retrieval.js";
+
 // api/voice-test.js
 // Vercel serverless function for the voice test harness.
 // Calls the Anthropic API with the provided system prompt and conversation.
@@ -44,6 +46,18 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "API key not configured on server" });
     }
 
+// RAG: retrieve passages using the LAST user message
+    let retrievalBlock = "";
+    try {
+      const lastUser = messages[messages.length - 1];
+      if (lastUser && lastUser.role === "user" && lastUser.content && lastUser.content.length > 3) {
+        const passages = await retrievePassages(lastUser.content, 5);
+        retrievalBlock = formatPassagesForPrompt(passages);
+        console.log(`voice-test: Retrieved ${passages.length} passages`);
+      }
+    } catch (err) {
+      console.error("voice-test retrieval failed:", err.message);
+    }
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
@@ -54,7 +68,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         model: selectedModel,
         max_tokens: 2000,
-        system: systemPrompt,
+        system: retrievalBlock + systemPrompt,
         messages: messages,
       }),
     });
