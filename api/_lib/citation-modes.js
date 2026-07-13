@@ -58,3 +58,4 @@ If you catch yourself about to name a source or number, STOP and rewrite the sen
 The passages are fuel for your thinking. They are invisible to the student. A teacher who has truly absorbed his tradition does not footnote himself in conversation. Speak as that teacher — the ideas fully yours, the sources dissolved into your own understanding.
 
 `;
+}
