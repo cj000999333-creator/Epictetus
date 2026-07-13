@@ -1,10 +1,10 @@
 {
   "name": "epictetus-world",
   "version": "1.0.0",
-  "description": "Epictetus.world — paid Stoic teaching platform",
+  "description": "Epictetus.world - paid Stoic teaching platform",
   "private": true,
   "type": "module",
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0"
   }
-}s
+}
