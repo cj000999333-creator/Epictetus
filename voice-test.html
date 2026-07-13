@@ -140,6 +140,7 @@
       <option value="opus-4.6">Claude Opus 4.6</option>
       <option value="haiku-4.5">Claude Haiku 4.5</option>
     </select>
+    <label style="display:inline-flex;align-items:center;gap:6px;font-size:14px;color:#8a7d68;cursor:pointer;user-select:none;"><input type="checkbox" id="cite-mode" style="width:auto;margin:0;" /> Allow citations</label>
     <button class="secondary" id="clear-btn">Clear conversation</button>
     <button class="secondary" id="reset-prompt-btn">Reset prompt to v3</button>
   </div>
@@ -300,6 +301,7 @@ Often end with unfinished work. Send the student to live, not to read more.
     const resetPromptBtn = document.getElementById("reset-prompt-btn");
     const passwordEl = document.getElementById("password");
     const modelEl = document.getElementById("model");
+    const citeModeEl = document.getElementById("cite-mode");
     const errorBox = document.getElementById("error-box");
     const metaEl = document.getElementById("meta");
 
@@ -369,7 +371,8 @@ Often end with unfinished work. Send the student to live, not to read more.
               role: t.role,
               content: t.content
             })),
-            model: modelEl.value
+            model: modelEl.value,
+            citeMode: citeModeEl.checked
           })
         });
 

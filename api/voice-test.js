@@ -1,8 +1,9 @@
-import { retrievePassages, formatPassagesForPrompt } from "./_lib/retrieval.js";
-
 // api/voice-test.js
 // Vercel serverless function for the voice test harness.
 // Calls the Anthropic API with the provided system prompt and conversation.
+
+import { retrievePassages } from "./_lib/retrieval.js";
+import { buildRetrievalBlock } from "./_lib/citation-modes.js";
 
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -18,7 +19,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { password, systemPrompt, messages, model } = req.body || {};
+    const { password, systemPrompt, messages, model, citeMode } = req.body || {};
 
     const REQUIRED_PASSWORD = process.env.VOICE_TEST_PASSWORD;
     if (!REQUIRED_PASSWORD || password !== REQUIRED_PASSWORD) {
@@ -46,18 +47,19 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "API key not configured on server" });
     }
 
-// RAG: retrieve passages using the LAST user message
+    // RAG: retrieve passages using the LAST user message
     let retrievalBlock = "";
     try {
       const lastUser = messages[messages.length - 1];
       if (lastUser && lastUser.role === "user" && lastUser.content && lastUser.content.length > 3) {
         const passages = await retrievePassages(lastUser.content, 5);
-        retrievalBlock = formatPassagesForPrompt(passages);
-        console.log(`voice-test: Retrieved ${passages.length} passages`);
+        retrievalBlock = buildRetrievalBlock(passages, citeMode === true);
+        console.log(`voice-test: Retrieved ${passages.length} passages (citeMode=${citeMode === true})`);
       }
     } catch (err) {
       console.error("voice-test retrieval failed:", err.message);
     }
+
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
