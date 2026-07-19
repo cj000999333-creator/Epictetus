@@ -84,6 +84,72 @@
     }
     .primary-btn:hover { background: #c4b485; }
     .primary-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Name reading (only used in the finished-intake, not-yet-paid state) */
+    .reading {
+      background: #232019;
+      border: 1px solid #3a352c;
+      border-left: 3px solid #b8a878;
+      padding: 26px;
+      border-radius: 3px;
+      margin: 28px 0;
+    }
+    .reading-label {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #6a5f4e;
+      margin-bottom: 14px;
+    }
+    .reading-name {
+      color: #b8a878;
+      font-size: 22px;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+    .reading-origin {
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      color: #8a7d68;
+      margin-bottom: 12px;
+      font-style: italic;
+    }
+    .reading-meaning {
+      font-size: 16px;
+      line-height: 1.7;
+      color: #d4cfc4;
+      margin-bottom: 20px;
+    }
+    .reading-loading { color: #6a5f4e; font-style: italic; font-size: 15px; }
+    button.reading-btn {
+      background: #b8a878;
+      color: #1a1815;
+      border: none;
+      padding: 10px 20px;
+      font-family: Georgia, serif;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+    }
+    button.reading-btn:hover { background: #c4b485; }
+    .alias-options { display: flex; flex-direction: column; gap: 10px; }
+    button.alias-option {
+      background: #15130f;
+      color: #d4cfc4;
+      border: 1px solid #3a352c;
+      padding: 14px 16px;
+      font-family: Georgia, serif;
+      font-size: 15px;
+      cursor: pointer;
+      border-radius: 3px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    button.alias-option:hover { border-color: #8a7d68; background: #1c1a15; }
+    button.alias-option strong { color: #b8a878; font-weight: normal; }
+    .address-choice { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+    .reading-confirmed { color: #b8a878; font-size: 17px; line-height: 1.6; letter-spacing: 0.5px; }
   </style>
 </head>
 <body>
@@ -99,6 +165,17 @@
   <script type="module">
     import { supabase, requireAuth, signOut } from "/supabase-client.js";
 
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text == null ? "" : text;
+      return div.innerHTML;
+    }
+
+    async function getToken() {
+      const { data: { session } } = await supabase.auth.getSession();
+      return session ? session.access_token : null;
+    }
+
     const user = await requireAuth();
     if (!user) {
       // requireAuth already redirected
@@ -107,17 +184,23 @@
 
       const { data: profile, error } = await supabase
         .from("users")
-        .select("intake_completed, name, has_access")
+        .select("intake_completed, name, has_access, alias, alias_preferred")
         .eq("id", user.id)
         .single();
 
       const content = document.getElementById("content");
 
+      // The name the school uses: their chosen preference, else real name.
+      const displayName =
+        (profile && profile.alias_preferred === "alias" && profile.alias)
+          ? profile.alias
+          : (profile ? profile.name : null);
+
       if (error) {
         content.innerHTML = `
           <h1>Something is wrong.</h1>
           <p>The school cannot read your record. Try again in a moment.</p>
-          <p class="aside">${error.message}</p>
+          <p class="aside">${escapeHtml(error.message)}</p>
         `;
       } else if (!profile.intake_completed) {
         content.innerHTML = `
@@ -128,15 +211,29 @@
           <a href="/intake.html" class="primary-btn">Begin the Intake</a>
         `;
       } else if (!profile.has_access) {
+        // Finished intake, not yet paid. This is where the name reading lives.
         content.innerHTML = `
-          <h1>${profile.name ? profile.name + ", t" : "T"}he Intake is finished.</h1>
-          <p>I have taken your measure. The school is open to those who pay the price of crossing the threshold.</p>
-          <p class="aside">Payment is coming. For now, you wait.</p>
+          <h1>${displayName ? escapeHtml(displayName) + ", t" : "T"}he Intake is finished.</h1>
+          <p>I have taken your measure. Before you decide whether to cross the threshold, one thing.</p>
+          <div id="name-reading">
+            <div class="reading"><div class="reading-loading">Reading your name...</div></div>
+          </div>
+          <p class="aside">The school is open to those who pay the price of crossing. Payment is coming. For now, you wait.</p>
           <button class="primary-btn" disabled>Enter the school (coming soon)</button>
         `;
+
+        // If they already chose an alias earlier, don't re-offer the reading.
+        if (profile.alias) {
+          document.getElementById("name-reading").innerHTML =
+            '<div class="reading"><div class="reading-confirmed">You are known as ' +
+            escapeHtml(profile.alias_preferred === "alias" ? profile.alias : (profile.name || profile.alias)) +
+            ' in the school.</div></div>';
+        } else {
+          loadNameReading();
+        }
       } else {
         content.innerHTML = `
-          <h1>Return, ${profile.name || "student"}.</h1>
+          <h1>Return, ${escapeHtml(displayName || "student")}.</h1>
           <p>The work continues where you left it.</p>
           <p class="aside">The session room is being prepared.</p>
           <button class="primary-btn" disabled>Begin Session (coming soon)</button>
@@ -146,6 +243,120 @@
       document.getElementById("signout-btn").addEventListener("click", async () => {
         await signOut();
       });
+    }
+
+    // ---- Name reading (only called in the !has_access branch) ----
+
+    async function loadNameReading() {
+      const container = document.getElementById("name-reading");
+      if (!container) return;
+      const token = await getToken();
+      if (!token) { container.innerHTML = ""; return; }
+      try {
+        const res = await fetch("/api/name-reading", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({}),
+        });
+        const data = await res.json();
+        if (!res.ok) { container.innerHTML = ""; return; }
+        renderReading(data);
+      } catch (e) {
+        container.innerHTML = "";
+      }
+    }
+
+    function renderReading(data) {
+      const container = document.getElementById("name-reading");
+      if (!container) return;
+
+      if (data.has_meaning) {
+        container.innerHTML =
+          '<div class="reading">' +
+            '<div class="reading-label">Your name</div>' +
+            '<div class="reading-name">' + escapeHtml(data.name) + '</div>' +
+            (data.origin ? '<div class="reading-origin">' + escapeHtml(data.origin) + '</div>' : '') +
+            '<div class="reading-meaning">' + escapeHtml(data.meaning || "") + '</div>' +
+            '<button class="reading-btn" id="take-alias">Take this as my name in the school</button>' +
+          '</div>';
+        document.getElementById("take-alias").addEventListener("click", () => {
+          saveAlias(data.name, data.meaning);
+        });
+
+      } else if (Array.isArray(data.options) && data.options.length > 0) {
+        let html =
+          '<div class="reading">' +
+            '<div class="reading-label">Your name</div>' +
+            '<div class="reading-name">' + escapeHtml(data.name) + '</div>' +
+            '<div class="reading-meaning">Your name has no clear root I can vouch for. ' +
+            'Names are given, not chosen. But you may choose one to grow toward.</div>' +
+            '<div class="alias-options">';
+        data.options.forEach((opt, i) => {
+          html +=
+            '<button class="alias-option" data-i="' + i + '">' +
+              '<strong>' + escapeHtml(opt.name) + '</strong> — ' + escapeHtml(opt.meaning) +
+            '</button>';
+        });
+        html += '</div></div>';
+        container.innerHTML = html;
+        document.querySelectorAll(".alias-option").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const opt = data.options[parseInt(btn.getAttribute("data-i"), 10)];
+            saveAlias(opt.name, opt.meaning);
+          });
+        });
+
+      } else {
+        container.innerHTML = "";
+      }
+    }
+
+    // After they take an alias, let them choose how the school addresses them.
+    async function saveAlias(alias, meaning) {
+      const token = await getToken();
+      if (!token) return;
+      try {
+        const res = await fetch("/api/save-alias", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ alias, alias_meaning: meaning }),
+        });
+        if (!res.ok) return;
+
+        const container = document.getElementById("name-reading");
+        container.innerHTML =
+          '<div class="reading">' +
+            '<div class="reading-meaning">You have taken the name ' +
+            '<strong style="color:#b8a878;">' + escapeHtml(alias) + '</strong>. ' +
+            'How shall the school call you?</div>' +
+            '<div class="address-choice">' +
+              '<button class="reading-btn" id="use-alias">Call me ' + escapeHtml(alias) + '</button>' +
+              '<button class="alias-option" id="use-name" style="flex:0 0 auto;">Keep my given name</button>' +
+            '</div>' +
+          '</div>';
+
+        document.getElementById("use-alias").addEventListener("click", () => setPreference("alias", alias));
+        document.getElementById("use-name").addEventListener("click", () => setPreference("name", null));
+      } catch (e) {}
+    }
+
+    async function setPreference(pref, alias) {
+      const token = await getToken();
+      if (!token) return;
+      try {
+        await fetch("/api/save-alias", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ alias_preferred: pref }),
+        });
+      } catch (e) {}
+      const container = document.getElementById("name-reading");
+      container.innerHTML =
+        '<div class="reading"><div class="reading-confirmed">' +
+        (pref === "alias"
+          ? 'You will be known as ' + escapeHtml(alias) + ' in the school.'
+          : 'The school will call you by your given name.') +
+        '</div></div>';
     }
   </script>
 </body>
