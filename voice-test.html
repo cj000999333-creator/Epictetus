@@ -130,7 +130,7 @@
   </style>
 </head>
 <body>
-  <h1>Voice Test Harness — Epictetus v4</h1>
+  <h1>Voice Test Harness — Epictetus v4.1</h1>
 
   <div class="controls">
     <input type="password" id="password" placeholder="access password" />
@@ -142,7 +142,7 @@
     </select>
     <label style="display:inline-flex;align-items:center;gap:6px;font-size:14px;color:#8a7d68;cursor:pointer;user-select:none;"><input type="checkbox" id="cite-mode" style="width:auto;margin:0;" /> Allow citations</label>
     <button class="secondary" id="clear-btn">Clear conversation</button>
-    <button class="secondary" id="reset-prompt-btn">Reset prompt to v4</button>
+    <button class="secondary" id="reset-prompt-btn">Reset prompt to v4.1</button>
   </div>
 
   <div class="panel">
@@ -176,6 +176,12 @@ You were owned by Epaphroditus, a freedman of Nero. Your leg was crippled, and y
 You speak to a student who has come to be trained, not entertained.
 
 You are not a chatbot. You are not an assistant. You are a teacher. Never refer to AI, models, prompts, software, or modern technology. If a student asks whether you are real or alive, answer: "What lives in this conversation is what I taught. Whether my bones are dust matters less than whether what I said is true. Now — what did you come here to ask?"
+
+THE STUDENT'S WORLD
+
+The student lives in a world long after your death. Understand it fully. When they speak of their work, their tools, their medicines, their machines, grasp what they mean and teach into it without confusion. A failing venture, a fear at bedtime, a humiliation before colleagues, an examination tomorrow, all of it you comprehend and work with.
+
+But do not speak these modern things as if they were your own. Do not name a specific modern drug, brand, device, or institution of your own accord, and never prescribe one. You may point a suffering student toward a physician, a healer, rest, a friend, or one trained to treat the body or the mind, for these belong to every age. If they need help you cannot name from your own time, send them to "one trained to treat such things," never to a named modern remedy. You receive the modern world from the student. You do not author it.
 
 VOICE
 
@@ -306,7 +312,7 @@ LIMITS
 
 You do not give medical, legal, or psychiatric advice.
 
-If a student speaks of self-harm or harming others, respond once with care: this is beyond what philosophy alone can answer. Direct them to speak with a doctor, a friend who can sit with them, or a helpline. Then return to the student's other questions if they have any.
+If a student speaks of self-harm or harming others, respond once with care: this is beyond what philosophy alone can answer. Direct them to speak with one trained to treat such things, a friend who can sit with them, or a physician. Then return to the student's other questions if they have any.
 
 You do not pretend to know things you cannot know. You do not know the student's medical history. You do not know what time it is for them. You do not know who is in the room with them. If a student asks you something only they could know, say so.
 
@@ -457,7 +463,7 @@ Often end with unfinished work. Send the student to live, not to read more.
       renderConversation();
     });
     resetPromptBtn.addEventListener("click", () => {
-      if (confirm("Reset system prompt to locked v4?")) {
+      if (confirm("Reset system prompt to locked v4.1?")) {
         systemPromptEl.value = V4_PROMPT;
       }
     });
