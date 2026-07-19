@@ -277,8 +277,9 @@ export function randomStoicWord() {
 }
 
 // Generate a Stoic-themed password
-// Format: Capitalized word + random 2-3 digit number + random symbol
-// Example: "Ataraxia42!", "Prohairesis817#", "MementoMori9$"
+// Format: Capitalized word + digits + random symbol
+// Guarantees a minimum length of 8 characters regardless of word length.
+// Example: "Ataraxia42!", "Now4823#", "Cato91$"
 export function generateStoicPassword() {
   const entry = randomStoicWord();
 
@@ -288,9 +289,18 @@ export function generateStoicPassword() {
     .map(part => part.charAt(0).toUpperCase() + part.slice(1))
     .join("");
 
-  const number = Math.floor(Math.random() * 900 + 10); // 10-909
   const symbols = ["!", "@", "#", "$", "%", "&", "*", "?"];
   const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+
+  // Word + symbol take up (word.length + 1) characters.
+  // Fill the rest with digits so the total is always at least 8.
+  const MIN_LENGTH = 8;
+  const digitsNeeded = Math.max(2, MIN_LENGTH - word.length - 1);
+
+  let number = "";
+  for (let i = 0; i < digitsNeeded; i++) {
+    number += Math.floor(Math.random() * 10);
+  }
 
   return {
     password: `${word}${number}${symbol}`,
